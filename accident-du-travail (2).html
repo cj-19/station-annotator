@@ -1,0 +1,2499 @@
+<!DOCTYPE html> 
+<html lang="fr"> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<title>Fiche d'analyse — Accident du travail</title> 
+<style> 
+  :root{ 
+    --ink:#20242a; 
+    --paper:#ffffff; 
+    --line:#e3e1de; 
+    --accent:#ff5b3c; 
+    --accent-dark:#e14a2e; 
+    --accent-soft:#ffe9e2; 
+    --muted:#767b82; 
+  } 
+  *{box-sizing:border-box;} 
+  body{ 
+    margin:0; 
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; 
+    background:#f4f3f1; 
+    color:var(--ink); 
+  } 
+  .app{ 
+    max-width:900px; 
+    margin:0 auto; 
+    padding:20px 16px 80px; 
+  } 
+  header.top{ 
+    display:flex; 
+    align-items:baseline; 
+    justify-content:space-between; 
+    flex-wrap:wrap; 
+    gap:10px; 
+    margin-bottom:18px; 
+  } 
+  h1{ 
+    font-size:1.5rem; 
+    margin:0; 
+    letter-spacing:0.2px; 
+    font-weight:700; 
+    border-bottom:3px solid var(--accent); 
+    display:inline-block; 
+    padding-bottom:4px; 
+  } 
+  .subtitle{ 
+    font-family:Arial, sans-serif; 
+    font-size:0.8rem; 
+    color:var(--muted); 
+    margin-top:4px; 
+  } 
+  .toolbar{ 
+    display:flex; 
+    gap:8px; 
+    flex-wrap:wrap; 
+  } 
+  button{ 
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; 
+    font-size:0.82rem; 
+    font-weight:600; 
+    border:1.5px solid var(--accent); 
+    background:var(--accent); 
+    color:#fff; 
+    padding:9px 16px; 
+    border-radius:24px; 
+    cursor:pointer; 
+    transition:background 0.15s, color 0.15s; 
+  } 
+  button:hover{ background:var(--accent-dark); border-color:var(--accent-dark); } 
+  button.secondary{ 
+    background:transparent; 
+    color:var(--accent); 
+  } 
+  button.secondary:hover{ background:var(--accent-soft); } 
+  button.ghost{ 
+    background:transparent; 
+    border-color:var(--line); 
+    color:var(--muted); 
+  } 
+  button.ghost:hover{ border-color:var(--muted); background:#f4f3f1; } 
+  button:active{ opacity:0.8; } 
+  
+  .card{ 
+    background:var(--paper); 
+    border:1px solid var(--line); 
+    border-radius:10px; 
+    padding:18px 18px 6px; 
+    margin-bottom:16px; 
+    box-shadow:0 1px 3px rgba(0,0,0,0.05); 
+  } 
+  .card h2{ 
+    font-size:1.05rem; 
+    margin:0 0 4px; 
+    color:var(--accent); 
+  } 
+  .card .hint{ 
+    font-family:Arial, sans-serif; 
+    font-size:0.72rem; 
+    color:var(--muted); 
+    margin-bottom:12px; 
+  } 
+  .grid2{ 
+    display:grid; 
+    grid-template-columns:1fr 1fr; 
+    gap:12px; 
+  } 
+  @media (max-width:560px){ 
+    .grid2{ grid-template-columns:1fr; } 
+  } 
+  .field{ margin-bottom:14px; } 
+  label{ 
+    display:block; 
+    font-family:Arial, sans-serif; 
+    font-size:0.78rem; 
+    font-weight:bold; 
+    color:var(--ink); 
+    margin-bottom:4px; 
+  } 
+  label .q{ 
+    font-weight:normal; 
+    color:var(--muted); 
+    font-size:0.72rem; 
+    display:block; 
+    margin-top:1px; 
+  } 
+  input[type=text], input[type=date], input[type=time], input[type=number], select, textarea{ 
+    width:100%; 
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; 
+    font-size:0.92rem; 
+    padding:9px 10px; 
+    border:1px solid var(--line); 
+    border-radius:8px; 
+    background:#fff; 
+    color:var(--ink); 
+    resize:vertical; 
+  } 
+  input[type=text]:focus, input[type=date]:focus, input[type=time]:focus, input[type=number]:focus, select:focus, textarea:focus{ 
+    outline:none; 
+    border-color:var(--accent); 
+    box-shadow:0 0 0 3px var(--accent-soft); 
+  } 
+  textarea{ min-height:70px; line-height:1.4; } 
+  textarea.tall{ min-height:100px; } 
+  
+  .letterband{ 
+    display:flex; 
+    gap:10px; 
+    align-items:flex-start; 
+    margin-bottom:14px; 
+  } 
+  .letterband .letter{ 
+    flex:0 0 26px; 
+    height:26px; 
+    border-radius:50%; 
+    background:var(--accent); 
+    color:#fff; 
+    font-family:Arial, sans-serif; 
+    font-weight:bold; 
+    font-size:0.8rem; 
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    margin-top:2px; 
+  } 
+  .letterband .content{ flex:1; } 
+  .letterband .content .label2{ 
+    font-family:Arial, sans-serif; 
+    font-size:0.78rem; 
+    font-weight:bold; 
+    margin-bottom:3px; 
+  } 
+  
+  .imgdrop{ 
+    border:1.5px dashed var(--line); 
+    border-radius:8px; 
+    padding:14px; 
+    text-align:center; 
+    font-family:Arial, sans-serif; 
+    font-size:0.78rem; 
+    color:var(--muted); 
+    cursor:pointer; 
+    background:#fff; 
+  } 
+  .imgdrop img{ 
+    max-width:100%; 
+    max-height:260px; 
+    display:block; 
+    margin:8px auto 0; 
+    border-radius:4px; 
+  } 
+  .imgdrop input{ display:none; } 
+  .remove-img{ 
+    font-family:Arial, sans-serif; 
+    font-size:0.72rem; 
+    color:var(--accent); 
+    background:none; 
+    border:none; 
+    text-decoration:underline; 
+    padding:4px 0 0; 
+    cursor:pointer; 
+  } 
+  
+  .history{ 
+    font-family:Arial, sans-serif; 
+  } 
+  .history-item{ 
+    display:flex; 
+    justify-content:space-between; 
+    align-items:center; 
+    padding:8px 4px; 
+    border-bottom:1px solid var(--line); 
+    font-size:0.82rem; 
+    gap:8px; 
+  } 
+  .history-item:last-child{ border-bottom:none; } 
+  .history-item .meta{ flex:1; cursor:pointer; } 
+  .history-item .meta b{ display:block; color:var(--ink); } 
+  .badge-mini{ 
+    display:inline-block; 
+    font-family:Arial, sans-serif; 
+    font-size:0.62rem; 
+    font-weight:bold; 
+    padding:2px 7px; 
+    border-radius:10px; 
+    background:var(--neutral-soft, #eceef0); 
+    color:var(--muted); 
+    vertical-align:middle; 
+    margin-left:4px; 
+  } 
+  .badge-mini.badge-warn{ background:var(--accent-soft); color:var(--accent-dark); } 
+  .badge-mini.badge-ok{ background:#e3f5ec; color:#2f9e6a; } 
+  .history-item .meta span{ color:var(--muted); font-size:0.72rem; } 
+  .history-actions button{ padding:5px 9px; font-size:0.72rem; } 
+  
+  .status{ 
+    font-family:Arial, sans-serif; 
+    font-size:0.75rem; 
+    color:var(--muted); 
+    text-align:right; 
+    min-height:16px; 
+    margin-top:2px; 
+  } 
+  .empty{ 
+    font-family:Arial, sans-serif; 
+    color:var(--muted); 
+    font-size:0.82rem; 
+    padding:6px 0; 
+  } 
+  
+  /* ---- BODY MAP ---- */ 
+  .bodymap-toggle{ 
+    display:flex; 
+    gap:8px; 
+    margin-bottom:10px; 
+  } 
+  .view-btn{ 
+    background:transparent; 
+    color:var(--accent); 
+    border:1px solid var(--accent); 
+    padding:6px 12px; 
+  } 
+  .view-btn.active{ 
+    background:var(--accent); 
+    color:#fff; 
+  } 
+  .bodymap-wrap{ 
+    display:flex; 
+    justify-content:center; 
+    background:#fff; 
+    border:1px solid var(--line); 
+    border-radius:8px; 
+    padding:10px; 
+  } 
+  .bodymap-svg{ max-width:260px; width:100%; } 
+  .bodymap-svg svg{ width:100%; height:auto; display:block; transform-origin:50% 85%; } 
+  .bodymap-svg .zone{ 
+    fill:#eef0f2; 
+    stroke:#c3c9ce; 
+    stroke-width:1.5; 
+    cursor:pointer; 
+    transition:fill 0.15s; 
+  } 
+  .bodymap-svg .joint{ 
+    fill:#dfe3e7; 
+    stroke:#9aa4ad; 
+    stroke-width:1.5; 
+    cursor:pointer; 
+    transition:fill 0.15s; 
+  } 
+  .bodymap-svg .zone:hover, .bodymap-svg .joint:hover{ 
+    fill:var(--accent-soft); 
+    stroke:var(--accent); 
+  } 
+  .bodymap-svg .zone.selected, .bodymap-svg .joint.selected{ 
+    fill:var(--accent); 
+    stroke:var(--accent-dark); 
+  } 
+  .legend{ 
+    display:flex; 
+    gap:14px; 
+    flex-wrap:wrap; 
+    font-family:Arial, sans-serif; 
+    font-size:0.72rem; 
+    color:var(--muted); 
+    margin:10px 0; 
+    align-items:center; 
+  } 
+  .legend .dot{ 
+    display:inline-block; 
+    width:10px; height:10px; 
+    border-radius:3px; 
+    margin-right:4px; 
+    vertical-align:middle; 
+  } 
+  .dot-zone{ background:#eef0f2; border:1px solid #c3c9ce; } 
+  .dot-joint{ background:#dfe3e7; border:1px solid #9aa4ad; border-radius:50%; } 
+  .dot-selected{ background:var(--accent); } 
+  
+  .info-icon{ 
+    display:inline-flex; 
+    align-items:center; 
+    justify-content:center; 
+    width:16px; 
+    height:16px; 
+    border-radius:50%; 
+    background:transparent; 
+    border:1.5px solid var(--accent); 
+    color:var(--accent); 
+    font-family:Georgia, serif; 
+    font-style:italic; 
+    font-weight:bold; 
+    font-size:0.68rem; 
+    line-height:1; 
+    padding:0; 
+    margin-left:6px; 
+    cursor:pointer; 
+    vertical-align:middle; 
+    transition:background 0.15s, color 0.15s; 
+  } 
+  .info-icon:hover{ background:var(--accent); color:#fff; } 
+  .tip-bubble{ 
+    position:absolute; 
+    z-index:50; 
+    width:260px; 
+    max-width:calc(100vw - 24px); 
+    background:#fff; 
+    border:1px solid var(--accent); 
+    border-left:4px solid var(--accent); 
+    border-radius:8px; 
+    padding:10px 12px; 
+    box-shadow:0 4px 14px rgba(0,0,0,0.15); 
+    font-family:Arial, sans-serif; 
+  } 
+  .tip-bubble .tip-text{ 
+    font-size:0.78rem; 
+    color:var(--ink); 
+    line-height:1.4; 
+  } 
+  .tip-bubble .tip-example{ 
+    margin-top:6px; 
+    padding-top:6px; 
+    border-top:1px dashed var(--line); 
+    font-size:0.76rem; 
+    color:var(--muted); 
+    font-style:italic; 
+    line-height:1.4; 
+  } 
+  
+  .zone-panel{ 
+    background:var(--accent-soft); 
+    border:1px solid var(--accent); 
+    border-radius:8px; 
+    padding:12px; 
+    margin-bottom:12px; 
+  } 
+  .zone-panel-title{ 
+    font-family:Arial, sans-serif; 
+    font-weight:bold; 
+    font-size:0.85rem; 
+    margin-bottom:8px; 
+    color:var(--accent); 
+  } 
+  .injury-grid{ 
+    display:flex; 
+    flex-wrap:wrap; 
+    gap:6px; 
+  } 
+  .injury-grid button{ 
+    background:#fff; 
+    color:var(--ink); 
+    border:1px solid var(--line); 
+    padding:6px 10px; 
+    font-size:0.78rem; 
+  } 
+  .injury-grid button:hover{ border-color:var(--accent); } 
+  #zonePanelCancel{ margin-top:10px; } 
+  
+  .lesion-chips{ 
+    display:flex; 
+    flex-wrap:wrap; 
+    gap:8px; 
+    margin-bottom:4px; 
+  } 
+  .lesion-chip{ 
+    display:flex; 
+    align-items:center; 
+    gap:6px; 
+    background:var(--accent-soft); 
+    border:1px solid var(--accent); 
+    color:var(--accent); 
+    font-family:Arial, sans-serif; 
+    font-size:0.78rem; 
+    padding:5px 8px 5px 10px; 
+    border-radius:20px; 
+  } 
+  .lesion-chip button{ 
+    background:none; 
+    border:none; 
+    color:var(--accent); 
+    font-weight:bold; 
+    padding:0 2px; 
+    cursor:pointer; 
+    font-size:0.85rem; 
+  } 
+  
+  .section-note{ 
+    background:var(--accent-soft); 
+    border-left:3px solid var(--accent); 
+    border-radius:6px; 
+    padding:9px 12px; 
+    font-size:0.8rem; 
+    color:var(--ink); 
+    margin-bottom:14px; 
+    line-height:1.4; 
+  } 
+  
+  .temoins-list{ margin-bottom:12px; } 
+  .temoin-card{ 
+    background:#fff; 
+    border:1px solid var(--line); 
+    border-radius:8px; 
+    padding:12px 14px; 
+    margin-bottom:10px; 
+  } 
+  .temoin-card .t-head{ 
+    display:flex; 
+    justify-content:space-between; 
+    align-items:center; 
+    margin-bottom:6px; 
+  } 
+  .temoin-card .t-head b{ font-size:0.9rem; color:var(--ink); } 
+  .temoin-card .t-head .t-role{ 
+    font-family:Arial, sans-serif; 
+    font-size:0.7rem; 
+    color:var(--accent-dark); 
+    background:var(--accent-soft); 
+    padding:2px 8px; 
+    border-radius:12px; 
+    margin-left:6px; 
+  } 
+  .temoin-card .t-remove{ 
+    background:none; border:none; color:var(--muted); 
+    font-size:0.8rem; cursor:pointer; text-decoration:underline; 
+  } 
+  .temoin-card .t-grid{ 
+    display:grid; 
+    grid-template-columns:1fr 1fr; 
+    gap:4px 14px; 
+    font-family:Arial, sans-serif; 
+    font-size:0.78rem; 
+    color:var(--muted); 
+  } 
+  .temoin-card .t-grid b{ color:var(--ink); font-weight:600; } 
+  .temoin-card .t-comment{ 
+    margin-top:6px; 
+    font-size:0.8rem; 
+    color:var(--ink); 
+    font-style:italic; 
+  } 
+  
+  .temoin-panel{ 
+    background:var(--accent-soft); 
+    border:1px solid var(--accent); 
+    border-radius:8px; 
+    padding:14px; 
+    margin-top:6px; 
+  } 
+  
+  .arbre-auto{ 
+    background:#fff; 
+    border:1px solid var(--line); 
+    border-radius:8px; 
+    padding:14px; 
+    overflow-x:auto; 
+  } 
+  .arbre-auto .empty{ text-align:left; padding:2px 0; } 
+  
+  .tree-builder{ 
+    display:grid; 
+    grid-template-columns:1fr 1fr; 
+    gap:14px; 
+  } 
+  @media (max-width:640px){ .tree-builder{ grid-template-columns:1fr; } } 
+  .tree-col{ 
+    background:#fff; 
+    border:1px solid var(--line); 
+    border-radius:8px; 
+    padding:12px; 
+  } 
+  .tree-col-title{ 
+    font-family:Arial, sans-serif; 
+    font-weight:bold; 
+    font-size:0.8rem; 
+    color:var(--ink); 
+    margin-bottom:8px; 
+  } 
+  .tree-add-row{ 
+    display:flex; 
+    gap:6px; 
+    margin-bottom:10px; 
+  } 
+  .tree-add-row-col{ flex-direction:column; align-items:stretch; } 
+  .tree-add-row input[type=text]{ flex:1; } 
+  .tree-add-row button{ flex:0 0 auto; } 
+  .tree-parents-checklist{ 
+    display:flex; 
+    flex-wrap:wrap; 
+    gap:6px; 
+    margin:2px 0 4px; 
+  } 
+  .tree-parents-checklist label{ 
+    display:flex; 
+    align-items:center; 
+    gap:4px; 
+    font-size:0.76rem; 
+    color:var(--ink); 
+    background:var(--neutral-soft, #eceef0); 
+    border-radius:14px; 
+    padding:3px 9px 3px 6px; 
+  } 
+  .tree-parents-checklist input[type=checkbox]{ accent-color:var(--accent); } 
+  .tree-items-list{ display:flex; flex-direction:column; gap:6px; } 
+  .tree-chip{ 
+    display:flex; 
+    align-items:flex-start; 
+    justify-content:space-between; 
+    gap:8px; 
+    background:var(--accent-soft); 
+    border:1px solid var(--accent); 
+    border-radius:6px; 
+    padding:6px 8px; 
+    font-size:0.78rem; 
+    color:var(--ink); 
+  } 
+  .tree-chip .tree-chip-text{ flex:1; } 
+  .tree-chip .tree-chip-parents{ 
+    display:block; 
+    font-size:0.68rem; 
+    color:var(--muted); 
+    margin-top:2px; 
+  } 
+  .tree-chip button{ 
+    background:none; border:none; color:var(--accent-dark); 
+    font-weight:bold; cursor:pointer; font-size:0.85rem; padding:0 2px; flex:0 0 auto; 
+  } 
+  
+  .epi-grid{ 
+    display:grid; 
+    grid-template-columns:1fr 1fr; 
+    gap:6px 12px; 
+  } 
+  @media (max-width:500px){ .epi-grid{ grid-template-columns:1fr; } } 
+  .epi-item{ 
+    display:flex; 
+    align-items:center; 
+    justify-content:space-between; 
+    gap:8px; 
+    font-size:0.85rem; 
+    color:var(--ink); 
+    padding:4px 0; 
+    flex-wrap:wrap; 
+  } 
+  .epi-item input[type=checkbox]{ 
+    width:16px; height:16px; 
+    accent-color:var(--accent); 
+    flex:0 0 auto; 
+  } 
+  .epi-utile-select{ 
+    font-size:0.72rem; 
+    padding:3px 6px; 
+    border:1px solid var(--line); 
+    border-radius:6px; 
+    color:var(--accent-dark); 
+    background:var(--accent-soft); 
+    flex:0 0 auto; 
+    width:auto; 
+  } 
+  
+  /* ---- PRINT / EXPORT VIEW ---- */ 
+  #printArea{ display:none; } 
+  @media print{ 
+    @page{ size:A4; margin:12mm 12mm 22mm; @bottom-center{ content:"Page " counter(page) " sur " counter(pages) "\A Plan de prévention Station Mobilité Mer Rouge"; white-space:pre; font-family:Arial, sans-serif; font-size:8pt; font-weight:bold; text-align:center; vertical-align:top; border-top:2px solid #ff5b3c; padding-top:3mm; } } 
+    .p-footer{ display:none !important; } 
+    .p-section{ break-after:avoid; page-break-after:avoid; } 
+    .app > *:not(#printArea){ display:none !important; } 
+    .app{ max-width:none; padding:0; margin:0; } 
+    #printArea{ 
+      display:block !important; 
+      width:100%; 
+      background:#fff; 
+    } 
+    .p-page{ 
+      page-break-after:always; 
+      padding:0; 
+      font-family:'Georgia', serif; 
+      color:#000; 
+      position:relative; 
+    } 
+    .p-page:last-child{ page-break-after:auto; } 
+    .p-header{ 
+      display:flex; 
+      justify-content:space-between; 
+      align-items:flex-start; 
+      margin-bottom:10px; 
+    } 
+    .p-header .company{ 
+      font-family:Arial, sans-serif; 
+      font-size:0.68rem; 
+      line-height:1.4; 
+    } 
+    .p-header .logo{ 
+      font-family:'Helvetica Neue', Arial, sans-serif; 
+      font-weight:800; 
+      font-size:1.05rem; 
+      color:#ff5b3c; 
+      text-align:right; 
+      line-height:1.1; 
+    } 
+    .p-header .logo .logo-s{ 
+      display:inline-flex; 
+      align-items:center; 
+      justify-content:center; 
+      width:20px; height:20px; 
+      border-radius:50%; 
+      background:#ff5b3c; 
+      color:#fff; 
+      font-size:0.8rem; 
+      margin-right:3px; 
+    } 
+    .p-body{ flex:1 0 auto; } 
+    .p-title{ 
+      text-align:center; 
+      font-size:1.15rem; 
+      text-decoration:underline; 
+      text-decoration-color:#ff5b3c; 
+      margin:20px 0 26px; 
+    } 
+    .p-row{ margin-bottom:9px; font-size:0.95rem; } 
+    .p-row .k{ font-weight:bold; } 
+    .p-block{ margin-bottom:12px; } 
+    .p-block .k{ font-weight:bold; display:block; margin-bottom:2px; font-size:0.92rem;} 
+    .p-block .v{ white-space:pre-wrap; font-size:0.92rem; line-height:1.45;} 
+    .hint{ display:block; font-family:Arial, sans-serif; font-size:0.78rem; font-weight:normal; color:#666; margin-bottom:4px; } 
+    .p-section{ font-weight:bold; text-align:center; font-size:1.02rem; margin:18px 0 16px; color:#e14a2e; } 
+    .p-cause{ margin-bottom:10px; } 
+    .p-cause .k{ font-weight:bold; } 
+    .p-img{ max-width:100%; max-height:210mm; display:block; margin-top:10px; } 
+    .p-arbre{ overflow:visible; } 
+    .p-block, .p-cause{ display:grid; grid-template-columns:36% minmax(0,1fr); border:1px solid #bbb; margin-bottom:8px; break-inside:avoid; page-break-inside:avoid; } 
+    .p-block.p-full{ display:block; border:none; } 
+    .p-q{ background:#ececec; padding:8px 10px; border-right:1px solid #bbb; -webkit-print-color-adjust:exact; print-color-adjust:exact; } 
+    .p-q > span{ display:block; } 
+    .p-a{ padding:8px 10px; min-width:0; } 
+    .p-footer{ 
+      margin-top:40px; 
+      padding-top:14px; 
+      border-top:2px solid #ff5b3c; 
+      text-align:center; 
+      font-family:Arial, sans-serif; 
+      font-size:0.72rem; 
+    } 
+    .p-footer .pnum{ font-weight:bold; } 
+  } 
+</style> 
+</head> 
+<body> 
+<div class="app"> 
+  
+  <header class="top"> 
+    <div> 
+      <h1>Fiche d'analyse — Accident du travail</h1> 
+      <div class="subtitle">Arbre des causes · à remplir puis exporter</div> 
+    </div> 
+    <div class="toolbar"> 
+      <button class="ghost" id="newBtn" type="button">+ Nouvelle fiche</button> 
+      <button id="saveBtn" type="button">Enregistrer</button> 
+      <button class="secondary" id="exportBtn" type="button">Exporter (PDF)</button> 
+      <button class="secondary" id="exportHtmlBtn" type="button">Exporter (HTML)</button> 
+    </div> 
+  </header> 
+  
+  <div class="card"> 
+    <h2>Historique des fiches</h2> 
+    <div class="hint" id="storageHint">Enregistrées dans ce navigateur (stockage local, aucune donnée envoyée à un serveur).</div> 
+    <div class="history" id="historyList"><div class="empty">Aucune fiche enregistrée pour l'instant.</div></div> 
+  </div> 
+  
+  <form id="ficheForm"> 
+  
+    <div class="card"> 
+      <h2>Identification</h2> 
+      <div class="hint">Explication déclaration accident du travail</div> 
+      <div class="grid2"> 
+        <div class="field"> 
+          <label>Nom de la victime</label> 
+          <input type="text" id="victime"> 
+        </div> 
+        <div class="field"> 
+          <label>Date de l'analyse</label> 
+          <input type="date" id="dateAnalyse"> 
+        </div> 
+        <div class="field"> 
+          <label>Participants</label> 
+          <input type="text" id="participants"> 
+        </div> 
+        <div class="field"> 
+          <label>Date / heure de l'accident</label> 
+          <input type="datetime-local" id="dateHeure" placeholder="jj/mm/aaaa — hh:mm"> 
+        </div> 
+        <div class="field"> 
+          <label>Lieu précis <span class="q">atelier, quai, zone, adresse...</span></label> 
+          <input type="text" id="lieu"> 
+        </div> 
+        <div class="field"> 
+          <label>Circonstance</label> 
+          <select id="circonstance"> 
+            <option value="">—</option> 
+            <option>Accident du travail (sur site)</option> 
+            <option>Accident de mission</option> 
+            <option>Accident de trajet</option> 
+          </select> 
+        </div> 
+        <div class="field"> 
+          <label>Nombre de jours d'arrêt</label> 
+          <input type="number" id="joursArret" min="0"> 
+        </div> 
+        <div class="field"> 
+          <label>Date de début de l'arrêt</label> 
+          <input type="date" id="dateDebutArret"> 
+        </div> 
+        <div class="field"> 
+          <label>Gravité <span class="q">conséquence réelle</span></label> 
+          <select id="gravite"> 
+            <option value="">—</option> 
+            <option>Bénin (soins immédiats, sans arrêt)</option> 
+            <option>Avec arrêt de travail</option> 
+            <option>Incapacité permanente</option> 
+            <option>Mortel</option> 
+          </select> 
+        </div> 
+        <div class="field"> 
+          <label>Gravité potentielle <span class="q">ce qui aurait pu arriver dans le pire des cas</span></label> 
+          <select id="gravitePotentielle"> 
+            <option value="">—</option> 
+            <option>Bénin (soins immédiats, sans arrêt)</option> 
+            <option>Avec arrêt de travail</option> 
+            <option>Incapacité permanente</option> 
+            <option>Mortel</option> 
+          </select> 
+        </div> 
+        <div class="field"> 
+          <label>Accident similaire déjà survenu ? <span class="q">récidive</span></label> 
+          <select id="recidive"> 
+            <option value="">—</option> 
+            <option>Oui</option> 
+            <option>Non</option> 
+            <option>Incertain</option> 
+          </select> 
+        </div> 
+        <div class="field"> 
+          <label>Statut de l'analyse complémentaire <span class="q">sert à identifier les tâches devant toujours être réalisées à plusieurs, ou les personnes nécessitant un renfort</span></label> 
+          <select id="statutAnalyse"> 
+            <option value="">—</option> 
+            <option>À compléter par un tiers</option> 
+            <option>Complétée</option> 
+            <option>Non nécessaire</option> 
+          </select> 
+        </div> 
+      </div> 
+ 
+      <div class="field" style="margin-top:4px;"> 
+        <label>Précision si récidive <span class="q">circonstances de l'accident similaire précédent</span></label> 
+        <textarea id="recidiveDetails"></textarea> 
+      </div> 
+ 
+      <div class="section-note"> 
+        <strong>Traçabilité légale</strong> — à compléter une fois la déclaration effectuée auprès de la CPAM. 
+      </div> 
+      <div class="grid2"> 
+        <div class="field"> 
+          <label>Date de déclaration (CPAM)</label> 
+          <input type="date" id="dateDeclaration"> 
+        </div> 
+        <div class="field"> 
+          <label>Référence dossier</label> 
+          <input type="text" id="refDossier"> 
+        </div> 
+      </div> 
+    </div> 
+  
+    <div class="card"> 
+      <h2>Siège des lésions</h2> 
+      <div class="hint">Touche une partie du corps (articulation ou zone) puis choisis le type de lésion. Chaque clic ajoute une atteinte à la liste.</div> 
+  
+      <div class="bodymap-toggle"> 
+        <button type="button" class="view-btn active" id="viewFrontBtn">Vue de face</button> 
+        <button type="button" class="view-btn" id="viewBackBtn">Vue de dos</button> 
+      </div> 
+  
+      <div class="bodymap-wrap"> 
+        <div id="bodymapFront" class="bodymap-svg"></div> 
+        <div id="bodymapBack" class="bodymap-svg" style="display:none;"></div> 
+      </div> 
+  
+      <div class="legend"> 
+        <span><i class="dot dot-zone"></i> zone</span> 
+        <span><i class="dot dot-joint"></i> articulation</span> 
+        <span><i class="dot dot-selected"></i> atteinte enregistrée</span> 
+      </div> 
+  
+      <div class="zone-panel" id="zonePanel" style="display:none;"> 
+        <div class="zone-panel-title">Zone : <span id="zonePanelLabel"></span></div> 
+        <div class="injury-grid" id="injuryGrid"></div> 
+        <div class="field" style="margin-top:8px;"> 
+          <label>Autre (préciser)</label> 
+          <div style="display:flex; gap:6px;"> 
+            <input type="text" id="injuryAutreInput" placeholder="ex : tendinite"> 
+            <button type="button" id="injuryAutreBtn" style="flex:0 0 auto;">Ajouter</button> 
+          </div> 
+        </div> 
+        <button type="button" class="ghost" id="zonePanelCancel">Annuler</button> 
+      </div> 
+  
+      <div class="lesion-chips" id="lesionChips"><div class="empty">Aucune atteinte ajoutée pour l'instant.</div></div> 
+  
+      <div class="field" style="margin-top:10px;"> 
+        <label>Précisions complémentaires <span class="q">tout ce qui n'est pas couvert par le schéma ci-dessus</span></label> 
+        <textarea id="siegeLesionsAutre"></textarea> 
+      </div> 
+    </div> 
+  
+    <div class="card"> 
+      <h2>Récit et circonstances</h2> 
+      <div class="field"> 
+        <label>Récit détaillé de l'accident <span class="q">ajouter croquis ou photos ci-dessous si besoin</span></label> 
+        <textarea id="recit" class="tall"></textarea> 
+      </div> 
+  
+      <div class="section-note"> 
+        <strong>Réalisation de la tâche</strong> — cette comparaison peut être complétée immédiatement ou plus tard, par la personne qui conduira l'analyse complète (arbre des causes), si ce n'est pas le déclarant. 
+      </div> 
+  
+      <div class="field"> 
+        <label>Comment la tâche a été réellement réalisée <span class="q">déroulé concret observé au moment des faits</span></label> 
+        <textarea id="tacheReelle"></textarea> 
+      </div> 
+  
+      <div class="field"> 
+        <label>Comment la tâche est censée être réalisée <span class="q">selon la procédure, la consigne ou la formation reçue</span></label> 
+        <textarea id="tacheProcedure"></textarea> 
+      </div> 
+  
+      <div class="field"> 
+        <label>Comment quelqu'un d'autre l'aurait réalisée <span class="q">pratique observée chez un collègue, un formateur, un autre poste — utile pour repérer un écart de pratique répandu</span></label> 
+        <textarea id="tacheAlternative"></textarea> 
+      </div> 
+  
+      <div class="field"> 
+        <label>Y a-t-il eu quelque chose d'inhabituel ce jour-là ?</label> 
+        <textarea id="tacheInhabituel"></textarea> 
+      </div> 
+  
+      <div class="field"> 
+        <label>Organisation du travail <span class="q">Horaires, cadences, délais, interaction avec un tiers ? Objectifs ? Autonomie ? Particularités ? Moyens de communication ? Relations dans les équipes ? Contraintes extérieures ?</span></label> 
+        <textarea id="organisation"></textarea> 
+      </div> 
+  
+      <div class="field"> 
+        <label>Matériel et prévention <span class="q">Matériel utilisé ? Risques spécifiques ? Moyens de prévention mis en œuvre ? EPI ? État du matériel ? Origine de la panne ou défaillance ?</span></label> 
+        <textarea id="materiel"></textarea> 
+      </div> 
+  
+      <div class="field"> 
+        <label>EPI portés par la victime au moment de l'accident</label> 
+        <div class="epi-grid" id="epiGrid"></div> 
+        <div class="field" style="margin-top:10px;"> 
+          <label>Autre EPI porté (préciser)</label> 
+          <input type="text" id="epiAutre"> 
+        </div> 
+        <div class="field"> 
+          <label>EPI manquants ou inadaptés <span class="q">absents, non portés, endommagés, non adaptés à la tâche...</span></label> 
+          <textarea id="epiManquants"></textarea> 
+        </div> 
+      </div> 
+  
+      <div class="field"> 
+        <label>Profil de la victime <span class="q">Qui est la victime ? Niveau de formation ? Ancienneté ? Poste occupé ? Horaires de travail ? Type de contrat ? Circonstances particulières ? Autres personnes impliquées ?</span></label> 
+        <textarea id="victimeProfil"></textarea> 
+      </div> 
+  
+      <div class="field"> 
+        <label>Environnement <span class="q">État des sols ? Bruit ? Température ? Éclairage ? Vapeurs ? Poussières ?</span></label> 
+        <textarea id="environnement"></textarea> 
+      </div> 
+  
+      <div class="field"> 
+        <label>Croquis / photos de l'accident (optionnel)</label> 
+        <div class="imgdrop" id="dropRecit"> 
+          <span id="dropRecitLabel">Toucher pour ajouter une image</span> 
+          <input type="file" id="fileRecit" accept="image/*"> 
+        </div> 
+        <button type="button" class="remove-img" id="removeRecitImg" style="display:none;">Retirer l'image</button> 
+      </div> 
+    </div> 
+  
+    <div class="card"> 
+      <h2>2 — Témoins et donneurs de soin</h2> 
+      <div class="hint"> 
+        À estimer pour chaque témoin ou secouriste présent : distance, s'il était isolé phoniquement/visuellement de l'accident, s'il aurait </div> 
+  
+      <div class="section-note"> 
+        <strong>Services de secours externes intervenus</strong> 
+        <div class="epi-grid" id="secoursGrid" style="margin-top:8px;"></div> 
+        <div class="field" style="margin-top:8px;"> 
+          <label>Détails de l'intervention <span class="q">délai d'arrivée, actions menées</span></label> 
+          <textarea id="secoursDetails"></textarea> 
+        </div> 
+      </div> 
+  
+      <div id="temoinsList" class="temoins-list"><div class="empty">Aucun témoin ou donneur de soin ajouté pour l'instant.</div></div> 
+  
+      <button type="button" class="secondary" id="addTemoinBtn">+ Ajouter un témoin / donneur de soin</button> 
+  
+      <div class="temoin-panel" id="temoinPanel" style="display:none;"> 
+        <div class="grid2"> 
+          <div class="field"> 
+            <label>Nom / identification</label> 
+            <input type="text" id="tNom" placeholder="ex : Témoin 1, ou nom"> 
+          </div> 
+          <div class="field"> 
+            <label>Rôle</label> 
+            <select id="tRole"> 
+              <option value="">—</option> 
+              <option>Témoin</option> 
+              <option>Secouriste / SST</option> 
+              <option>Collègue intervenant</option> 
+              <option>Pompier</option> 
+              <option>SAMU / ambulancier</option> 
+              <option>Autre</option> 
+            </select> 
+          </div> 
+          <div class="field"> 
+            <label>Formation secouriste (SST) ?</label> 
+            <select id="tFormationSST"><option value="">—</option><option>Oui</option><option>Non</option><option>Incertain</option></select> 
+          </div> 
+          <div class="field"> 
+            <label>Distance estimée par rapport à l'accident</label> 
+            <input type="text" id="tDistance" placeholder="ex : environ 5 mètres"> 
+          </div> 
+          <div class="field"> 
+            <label>Isolé phoniquement de l'accident <span class="q">ne pouvait pas l'entendre</span></label> 
+            <select id="tIsolePhonique"><option value="">—</option><option>Oui</option><option>Non</option><option>Incertain</option></select> 
+          </div> 
+          <div class="field"> 
+            <label>Isolé visuellement de l'accident <span class="q">ne pouvait pas le voir</span></label> 
+            <select id="tIsoleVisuel"><option value="">—</option><option>Oui</option><option>Non</option><option>Incertain</option></select> 
+          </div> 
+          <div class="field"> 
+            <label>Aurait été en danger s'il avait été plus proche</label> 
+            <select id="tDangerSiProche"><option value="">—</option><option>Oui</option><option>Non</option><option>Incertain</option></select> 
+          </div> 
+          <div class="field"> 
+            <label>Aurait pu se mettre en danger en s'approchant pour intervenir</label> 
+            <select id="tDangerEnApprochant"><option value="">—</option><option>Oui</option><option>Non</option><option>Incertain</option></select> 
+          </div> 
+          <div class="field"> 
+            <label>Son intervention a été salvatrice</label> 
+            <select id="tSalvatrice"><option value="">—</option><option>Oui</option><option>Non</option><option>Incertain</option><option>Non concerné</option></select> 
+          </div> 
+        </div> 
+        <div class="field"> 
+          <label>Commentaire</label> 
+          <textarea id="tCommentaire"></textarea> 
+        </div> 
+        <div class="toolbar"> 
+          <button type="button" id="saveTemoinBtn">Ajouter ce témoin</button> 
+          <button type="button" class="ghost" id="cancelTemoinBtn">Annuler</button> 
+        </div> 
+      </div> 
+    </div> 
+  
+    <div class="card"> 
+      <h2>3 — Rechercher les causes et les faits déclencheurs</h2> 
+      <div class="hint">Causes identifiées</div> 
+ 
+      <div class="section-note"> 
+        <strong>Distinguer faits et causes</strong> — ne recopie pas ici les faits déjà décrits plus haut (organisation, matériel, environnement...) : indique en quoi ils constituent une cause de l'accident. 
+      </div> 
+  
+      <div class="letterband"> 
+        <div class="letter">A</div> 
+        <div class="content"> 
+          <div class="label2">Organisationnelles</div> 
+          <div class="hint" style="margin-bottom:6px;">Cadences, autonomie, objectifs, répartition, dépendance, poste amont/aval, prise en compte des aléas, mode dégradé...</div> 
+          <textarea id="causeA"></textarea> 
+        </div> 
+      </div> 
+  
+      <div class="letterband"> 
+        <div class="letter">B</div> 
+        <div class="content"> 
+          <div class="label2">Techniques</div> 
+          <div class="hint" style="margin-bottom:6px;">Matériel : machines, outils, maintenance, état, mode d'emploi — Environnement : bruit, température, éclairage</div> 
+          <textarea id="causeB"></textarea> 
+        </div> 
+      </div> 
+  
+      <div class="letterband"> 
+        <div class="letter">C</div> 
+        <div class="content"> 
+          <div class="label2">Humaines</div> 
+          <div class="hint" style="margin-bottom:6px;">Formation, mode d'apprentissage, information, management</div> 
+          <textarea id="causeC"></textarea> 
+        </div> 
+      </div> 
+  
+      <div class="field"> 
+        <label>Construire le schéma de l'arbre des causes <span class="q">ajoute les faits qui ont mené à l'accident (causes racines) 
+        <div class="tree-builder"> 
+          <div class="tree-col"> 
+            <div class="tree-col-title">Causes racines <span class="q">faits initiaux</span></div> 
+            <div class="tree-add-row"> 
+              <input type="text" id="rootCauseInput" placeholder="ex : sol mouillé non signalé"> 
+              <button type="button" id="addRootCauseBtn">+ Ajouter</button> 
+            </div> 
+            <div id="rootCausesList" class="tree-items-list"></div> 
+          </div> 
+  
+          <div class="tree-col"> 
+            <div class="tree-col-title">Causes intermédiaires <span class="q">regroupent une ou plusieurs causes racines</span></div> 
+            <div class="tree-add-row tree-add-row-col"> 
+              <input type="text" id="intermCauseInput" placeholder="ex : perte d'équilibre sur sol glissant"> 
+              <div id="intermParentsChecklist" class="tree-parents-checklist"></div> 
+              <button type="button" id="addIntermCauseBtn">+ Ajouter</button> 
+            </div> 
+            <div id="intermCausesList" class="tree-items-list"></div> 
+          </div> 
+        </div> 
+      </div> 
+  
+      <div class="field"> 
+        <label>Schéma de l'arbre des causes <span class="q">généré automatiquement — se met à jour en direct</span></label> 
+        <div id="arbreAuto" class="arbre-auto"></div> 
+      </div> 
+  
+      <div class="field"> 
+        <label>Schéma alternatif dessiné à la main (optionnel)</label> 
+        <div class="imgdrop" id="dropArbre"> 
+          <span id="dropArbreLabel">Toucher pour ajouter une photo du schéma dessiné à la main</span> 
+          <input type="file" id="fileArbre" accept="image/*"> 
+        </div> 
+        <button type="button" class="remove-img" id="removeArbreImg" style="display:none;">Retirer l'image</button> 
+      </div> 
+    </div> 
+  
+    <div class="card"> 
+      <h2>4 — Actions correctives et préventives mises en place</h2> 
+      <div class="hint">Une action par ligne de cause traitée — plusieurs actions peuvent être ajoutées pour une même cause.</div> 
+  
+      <div id="actionsList" class="temoins-list"><div class="empty">Aucune action ajoutée pour l'instant.</div></div> 
+  
+      <button type="button" class="secondary" id="addActionBtn">+ Ajouter une action</button> 
+  
+      <div class="temoin-panel" id="actionPanel" style="display:none;"> 
+        <div class="field"> 
+          <label>Action mise en place</label> 
+          <textarea id="aDescription" placeholder="ex : installation d'un tapis antidérapant à l'entrée de l'atelier"></textarea> 
+        </div> 
+        <div class="grid2"> 
+          <div class="field"> 
+            <label>Responsable</label> 
+            <input type="text" id="aResponsable"> 
+          </div> 
+          <div class="field"> 
+            <label>Délai</label> 
+            <input type="text" id="aDelai" placeholder="ex : sous 15 jours"> 
+          </div> 
+          <div class="field"> 
+            <label>Statut</label> 
+            <select id="aStatut"> 
+              <option value="">—</option> 
+              <option>À faire</option> 
+              <option>En cours</option> 
+              <option>Réalisée</option> 
+            </select> 
+          </div> 
+          <div class="field"> 
+            <label>Date de vérification de l'efficacité <span class="q">contrôle a posteriori</span></label> 
+            <input type="date" id="aDateVerif"> 
+          </div> 
+        </div> 
+        <div class="toolbar"> 
+          <button type="button" id="saveActionBtn">Ajouter cette action</button> 
+          <button type="button" class="ghost" id="cancelActionBtn">Annuler</button> 
+        </div> 
+      </div> 
+ 
+      <div class="section-note" style="margin-top:16px;"> 
+        <strong>Suivi et clôture</strong> — à compléter une fois toutes les actions vérifiées. 
+      </div> 
+      <div class="grid2"> 
+        <div class="field"> 
+          <label>Validé par</label> 
+          <input type="text" id="validateur"> 
+        </div> 
+        <div class="field"> 
+          <label>Date de clôture</label> 
+          <input type="date" id="dateCloture"> 
+        </div> 
+      </div> 
+    </div> 
+  
+  </form> 
+  
+  <div class="status" id="statusMsg"></div> 
+</div> 
+  
+<!-- PRINT / EXPORT VIEW --> 
+<div id="printArea"></div> 
+  
+<script> 
+const FIELD_IDS = ['victime','dateAnalyse','participants','dateHeure','lieu','circonstance','joursArret','dateDebutArret','gravite','gravitePotentielle','recidive','recidiveDetails','dateDeclaration','refDossier','statutAnalyse','siegeLesionsAutre', 
+  'recit','tacheReelle','tacheProcedure','tacheAlternative','tacheInhabituel','organisation','materiel','epiAutre','epiManquants','victimeProfil','environnement', 
+  'causeA','causeB','causeC','secoursDetails','validateur','dateCloture']; 
+  
+let currentId = null; // key of currently loaded fiche 
+let recitImg = null; 
+let arbreImg = null; 
+let lesionsList = []; // { zone, label, injuryType } 
+let temoinsList = []; // { nom, role, distance, isolePhonique, isoleVisuel, dangerSiProche, dangerEnApprochant, salvatrice, commentaire } 
+let epiPortes = []; // liste des libellés d'EPI cochés 
+  
+const EPI_ITEMS = [ 
+  "Casque", "Lunettes / visière de protection", "Gants", "Chaussures de sécurité", 
+  "Protection auditive", "Masque / protection respiratoire", "Vêtement haute visibilité", 
+  "Harnais antichute", "Tablier / vêtement de protection", "Genouillères" 
+]; 
+  
+// Stockage 100% local au navigateur — aucune dépendance à un service externe. 
+const storageAdapter = (function(){ 
+  const api = { 
+    async get(key){ 
+      const raw = localStorage.getItem(key); 
+      if (raw === null) throw new Error('key not found: ' + key); 
+      return { key, value: raw }; 
+    }, 
+    async set(key, value){ 
+      localStorage.setItem(key, value); 
+      return { key, value }; 
+    }, 
+    async delete(key){ 
+      localStorage.removeItem(key); 
+      return { key, deleted: true }; 
+    }, 
+    async list(prefix){ 
+      const keys = []; 
+      for (let i = 0; i < localStorage.length; i++){ 
+        const k = localStorage.key(i); 
+        if (!prefix || (k && k.indexOf(prefix) === 0)) keys.push(k); 
+      } 
+      return { keys, prefix }; 
+    } 
+  }; 
+  return { mode: 'local', api }; 
+})(); 
+  
+function el(id){ return document.getElementById(id); } 
+  
+function readForm(){ 
+  const data = {}; 
+  FIELD_IDS.forEach(id => data[id] = el(id).value); 
+  data.recitImg = recitImg; 
+  data.arbreImg = arbreImg; 
+  data.lesionsList = lesionsList; 
+  data.temoinsList = temoinsList; 
+  data.epiPortes = epiPortes; 
+  data.rootCauses = rootCauses; 
+  data.intermediateCauses = intermediateCauses; 
+  data.secoursIntervenus = secoursIntervenus; 
+  data.actionsList = actionsList; 
+  return data; 
+} 
+  
+function fillForm(data){ 
+  FIELD_IDS.forEach(id => { el(id).value = data[id] || ''; }); 
+  recitImg = data.recitImg || null; 
+  arbreImg = data.arbreImg || null; 
+  lesionsList = Array.isArray(data.lesionsList) ? data.lesionsList : []; 
+  temoinsList = Array.isArray(data.temoinsList) ? data.temoinsList : []; 
+  epiPortes = Array.isArray(data.epiPortes) ? data.epiPortes : []; 
+  rootCauses = Array.isArray(data.rootCauses) ? data.rootCauses : []; 
+  intermediateCauses = Array.isArray(data.intermediateCauses) ? data.intermediateCauses : []; 
+  secoursIntervenus = Array.isArray(data.secoursIntervenus) ? data.secoursIntervenus : []; 
+  actionsList = Array.isArray(data.actionsList) ? data.actionsList : []; 
+  refreshImagePreview('dropRecit', 'dropRecitLabel', 'removeRecitImg', recitImg); 
+  refreshImagePreview('dropArbre', 'dropArbreLabel', 'removeArbreImg', arbreImg); 
+  renderLesionChips(); 
+  renderTemoinsList(); 
+  renderRootCausesList(); 
+  renderIntermCausesList(); 
+  renderArbreAuto(); 
+  renderEpiGrid(); 
+  renderSecoursGrid(); 
+  renderActionsList(); 
+} 
+  
+function clearForm(){ 
+  FIELD_IDS.forEach(id => el(id).value = ''); 
+  recitImg = null; arbreImg = null; 
+  lesionsList = []; 
+  temoinsList = []; 
+  epiPortes = []; 
+  rootCauses = []; 
+  intermediateCauses = []; 
+  secoursIntervenus = []; 
+  actionsList = []; 
+  refreshImagePreview('dropRecit', 'dropRecitLabel', 'removeRecitImg', null); 
+  refreshImagePreview('dropArbre', 'dropArbreLabel', 'removeArbreImg', null); 
+  renderLesionChips(); 
+  renderTemoinsList(); 
+  renderRootCausesList(); 
+  renderIntermCausesList(); 
+  renderArbreAuto(); 
+  renderEpiGrid(); 
+  renderSecoursGrid(); 
+  renderActionsList(); 
+  currentId = null; 
+  setStatus('Nouvelle fiche vierge.'); 
+} 
+  
+function refreshImagePreview(dropId, labelId, removeId, imgData){ 
+  const drop = el(dropId); 
+  const existingImg = drop.querySelector('img'); 
+  if (existingImg) existingImg.remove(); 
+  const label = el(labelId); 
+  const removeBtn = el(removeId); 
+  if (imgData){ 
+    label.style.display = 'none'; 
+    const img = document.createElement('img'); 
+    img.src = imgData; 
+    drop.appendChild(img); 
+    removeBtn.style.display = 'inline-block'; 
+  } else { 
+    label.style.display = 'block'; 
+    removeBtn.style.display = 'none'; 
+  } 
+} 
+  
+function setStatus(msg){ 
+  el('statusMsg').textContent = msg; 
+  setTimeout(()=>{ if (el('statusMsg').textContent === msg) el('statusMsg').textContent = ''; }, 3500); 
+} 
+  
+function keyFor(data){ 
+  const name = (data.victime || 'sans-nom').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40) || 'sans-nom'; 
+  const date = (data.dateAnalyse || 'sans-date'); 
+  return 'fiche:' + name + ':' + date + ':' + Date.now(); 
+} 
+  
+async function saveCurrent(){ 
+  const data = readForm(); 
+  if (!data.victime && !data.recit){ 
+    setStatus('Ajoute au moins un nom de victime ou un récit avant d\'enregistrer.'); 
+    return; 
+  } 
+  try { 
+    const id = currentId || keyFor(data); 
+    data.savedAt = new Date().toISOString(); 
+    const result = await storageAdapter.api.set(id, JSON.stringify(data), false); 
+    if (result){ 
+      currentId = id; 
+      setStatus('Fiche enregistrée.'); 
+      await loadHistory(); 
+    } else { 
+      setStatus("Échec de l'enregistrement."); 
+    } 
+  } catch(e){ 
+    console.error(e); 
+    setStatus("Erreur lors de l'enregistrement."); 
+  } 
+} 
+  
+async function loadHistory(){ 
+  const list = el('historyList'); 
+  try { 
+    const res = await storageAdapter.api.list('fiche:', false); 
+    const keys = (res && res.keys) ? res.keys : []; 
+    if (keys.length === 0){ 
+      list.innerHTML = '<div class="empty">Aucune fiche enregistrée pour l\'instant.</div>'; 
+      return; 
+    } 
+    const items = []; 
+    for (const k of keys){ 
+      try { 
+        const r = await storageAdapter.api.get(k, false); 
+        if (r && r.value){ 
+          const d = JSON.parse(r.value); 
+          items.push({ key: k, data: d }); 
+        } 
+      } catch(e){ /* skip unreadable entry */ } 
+    } 
+    items.sort((a,b) => (b.data.savedAt||'').localeCompare(a.data.savedAt||'')); 
+    list.innerHTML = ''; 
+    items.forEach(item => { 
+      const row = document.createElement('div'); 
+      row.className = 'history-item'; 
+      const meta = document.createElement('div'); 
+      meta.className = 'meta'; 
+      const savedDate = item.data.savedAt ? new Date(item.data.savedAt).toLocaleString('fr-FR') : ''; 
+      const statut = item.data.statutAnalyse; 
+      const badgeClass = statut === 'Complétée' ? 'badge-ok' : (statut === 'À compléter par un tiers' ? 'badge-warn' : ''); 
+      meta.innerHTML = '<b>' + (item.data.victime || 'Sans nom') + (statut ? ' <span class="badge-mini ' + badgeClass + '">' + esc(statut) + '</span>' : '') + '</b><span>' + 
+        (item.data.dateAnalyse ? 'Analyse du ' + item.data.dateAnalyse + ' — ' : '') + savedDate + '</span>'; 
+      meta.onclick = () => { 
+        currentId = item.key; 
+        fillForm(item.data); 
+        setStatus('Fiche chargée : ' + (item.data.victime || 'sans nom')); 
+        window.scrollTo({top:0, behavior:'smooth'}); 
+      }; 
+      const actions = document.createElement('div'); 
+      actions.className = 'history-actions'; 
+      const delBtn = document.createElement('button'); 
+      delBtn.className = 'ghost'; 
+      delBtn.type = 'button'; 
+      delBtn.textContent = 'Supprimer'; 
+      delBtn.onclick = async (ev) => { 
+        ev.stopPropagation(); 
+        try { 
+          await storageAdapter.api.delete(item.key, false); 
+          if (currentId === item.key) clearForm(); 
+          await loadHistory(); 
+        } catch(e){ setStatus('Erreur lors de la suppression.'); } 
+      }; 
+      actions.appendChild(delBtn); 
+      row.appendChild(meta); 
+      row.appendChild(actions); 
+      list.appendChild(row); 
+    }); 
+  } catch(e){ 
+    console.error(e); 
+    list.innerHTML = '<div class="empty">Impossible de charger l\'historique.</div>'; 
+  } 
+} 
+  
+function handleImageFile(input, applyFn){ 
+  input.addEventListener('change', () => { 
+    const file = input.files[0]; 
+    if (!file) return; 
+    const reader = new FileReader(); 
+    reader.onload = () => { applyFn(reader.result); }; 
+    reader.readAsDataURL(file); 
+  }); 
+} 
+  
+el('dropRecit').addEventListener('click', (e) => { if (e.target.tagName !== 'BUTTON') el('fileRecit').click(); }); 
+el('dropArbre').addEventListener('click', (e) => { if (e.target.tagName !== 'BUTTON') el('fileArbre').click(); }); 
+handleImageFile(el('fileRecit'), (data) => { recitImg = data; refreshImagePreview('dropRecit','dropRecitLabel','removeRecitImg', recitImg); }); 
+handleImageFile(el('fileArbre'), (data) => { arbreImg = data; refreshImagePreview('dropArbre','dropArbreLabel','removeArbreImg', arbreImg); }); 
+el('removeRecitImg').addEventListener('click', () => { recitImg = null; refreshImagePreview('dropRecit','dropRecitLabel','removeRecitImg', null); }); 
+el('removeArbreImg').addEventListener('click', () => { arbreImg = null; refreshImagePreview('dropArbre','dropArbreLabel','removeArbreImg', null); }); 
+  
+el('newBtn').addEventListener('click', clearForm); 
+el('saveBtn').addEventListener('click', saveCurrent); 
+el('exportBtn').addEventListener('click', () => { 
+  buildPrintView(readForm()); 
+  setTimeout(() => window.print(), 80); 
+}); 
+  
+/* ==================== BODY MAP ==================== */ 
+  
+const ZONE_LABELS = { 
+  tete: "Tête", 
+  oeil_droit: "Œil droit", 
+  oeil_gauche: "Œil gauche", 
+  cou: "Cou / nuque", 
+  epaule_droite: "Épaule droite", 
+  epaule_gauche: "Épaule gauche", 
+  thorax: "Thorax / poitrine", 
+  abdomen: "Abdomen / ventre", 
+  dos_haut: "Dos (haut / dorsal)", 
+  lombaire: "Bas du dos (lombaires)", 
+  fessier: "Fessier", 
+  bras_droit: "Bras droit", 
+  bras_gauche: "Bras gauche", 
+  coude_droit: "Coude droit", 
+  coude_gauche: "Coude gauche", 
+  avant_bras_droit: "Avant-bras droit", 
+  avant_bras_gauche: "Avant-bras gauche", 
+  poignet_droit: "Poignet droit", 
+  poignet_gauche: "Poignet gauche", 
+  main_droite: "Main droite", 
+  main_gauche: "Main gauche", 
+  pouce_droit: "Pouce droit", 
+  index_droit: "Index droit", 
+  majeur_droit: "Majeur droit", 
+  annulaire_droit: "Annulaire droit", 
+  auriculaire_droit: "Auriculaire droit", 
+  pouce_gauche: "Pouce gauche", 
+  index_gauche: "Index gauche", 
+  majeur_gauche: "Majeur gauche", 
+  annulaire_gauche: "Annulaire gauche", 
+  auriculaire_gauche: "Auriculaire gauche", 
+  hanche_droite: "Hanche droite", 
+  hanche_gauche: "Hanche gauche", 
+  cuisse_droite: "Cuisse droite", 
+  cuisse_gauche: "Cuisse gauche", 
+  genou_droit: "Genou droit", 
+  genou_gauche: "Genou gauche", 
+  jambe_droite: "Jambe droite (tibia/mollet)", 
+  jambe_gauche: "Jambe gauche (tibia/mollet)", 
+  cheville_droite: "Cheville droite", 
+  cheville_gauche: "Cheville gauche", 
+  pied_droit: "Pied droit", 
+  pied_gauche: "Pied gauche" 
+}; 
+  
+const INJURY_TYPES = [ 
+  "Fracture", "Entorse", "Luxation", "Brûlure", "Coupure / plaie", 
+  "Écorchure / égratignure", "Contusion / hématome", "Lésion oculaire", 
+  "Amputation", "TMS aigu (trouble musculosquelettique)", "Choc électrique", "Intoxication" 
+]; 
+  
+const FRONT_SVG = ` 
+<svg viewBox="0 0 240 360" xmlns="http://www.w3.org/2000/svg"> 
+  <circle class="zone" data-zone="tete" cx="120" cy="38" r="26"/> 
+  <circle class="zone" data-zone="oeil_droit" cx="110" cy="34" r="3"/> 
+  <circle class="zone" data-zone="oeil_gauche" cx="130" cy="34" r="3"/> 
+  <rect class="zone" data-zone="cou" x="110" y="62" width="20" height="14" rx="4"/> 
+  <rect class="zone" data-zone="thorax" x="90" y="80" width="60" height="55" rx="14"/> 
+  <rect class="zone" data-zone="abdomen" x="94" y="133" width="52" height="40" rx="10"/> 
+  <circle class="joint" data-zone="epaule_droite" cx="78" cy="88" r="11"/> 
+  <circle class="joint" data-zone="epaule_gauche" cx="162" cy="88" r="11"/> 
+  <rect class="zone" data-zone="bras_droit" x="62" y="90" width="18" height="70" rx="9"/> 
+  <rect class="zone" data-zone="bras_gauche" x="160" y="90" width="18" height="70" rx="9"/> 
+  <circle class="joint" data-zone="coude_droit" cx="71" cy="164" r="8"/> 
+  <circle class="joint" data-zone="coude_gauche" cx="169" cy="164" r="8"/> 
+  <rect class="zone" data-zone="avant_bras_droit" x="63" y="172" width="16" height="60" rx="8"/> 
+  <rect class="zone" data-zone="avant_bras_gauche" x="161" y="172" width="16" height="60" rx="8"/> 
+  <circle class="joint" data-zone="poignet_droit" cx="71" cy="236" r="6"/> 
+  <circle class="joint" data-zone="poignet_gauche" cx="169" cy="236" r="6"/> 
+  <ellipse class="zone" data-zone="main_droite" cx="71" cy="245" rx="10" ry="10"/> 
+  <ellipse class="zone" data-zone="main_gauche" cx="169" cy="245" rx="10" ry="10"/> 
+  <rect class="zone" data-zone="pouce_droit" x="57" y="248" width="6" height="11" rx="3"/> 
+  <rect class="zone" data-zone="index_droit" x="63" y="255" width="5" height="14" rx="2"/> 
+  <rect class="zone" data-zone="majeur_droit" x="69" y="257" width="5" height="16" rx="2"/> 
+  <rect class="zone" data-zone="annulaire_droit" x="75" y="255" width="5" height="14" rx="2"/> 
+  <rect class="zone" data-zone="auriculaire_droit" x="81" y="252" width="5" height="11" rx="2"/> 
+  <rect class="zone" data-zone="pouce_gauche" x="177" y="248" width="6" height="11" rx="3"/> 
+  <rect class="zone" data-zone="index_gauche" x="172" y="255" width="5" height="14" rx="2"/> 
+  <rect class="zone" data-zone="majeur_gauche" x="166" y="257" width="5" height="16" rx="2"/> 
+  <rect class="zone" data-zone="annulaire_gauche" x="160" y="255" width="5" height="14" rx="2"/> 
+  <rect class="zone" data-zone="auriculaire_gauche" x="154" y="252" width="5" height="11" rx="2"/> 
+  <circle class="joint" data-zone="hanche_droite" cx="104" cy="175" r="9"/> 
+  <circle class="joint" data-zone="hanche_gauche" cx="136" cy="175" r="9"/> 
+  <rect class="zone" data-zone="cuisse_droite" x="92" y="178" width="24" height="70" rx="12"/> 
+  <rect class="zone" data-zone="cuisse_gauche" x="124" y="178" width="24" height="70" rx="12"/> 
+  <circle class="joint" data-zone="genou_droit" cx="104" cy="252" r="9"/> 
+  <circle class="joint" data-zone="genou_gauche" cx="136" cy="252" r="9"/> 
+  <rect class="zone" data-zone="jambe_droite" x="94" y="260" width="20" height="65" rx="10"/> 
+  <rect class="zone" data-zone="jambe_gauche" x="126" y="260" width="20" height="65" rx="10"/> 
+  <circle class="joint" data-zone="cheville_droite" cx="104" cy="328" r="7"/> 
+  <circle class="joint" data-zone="cheville_gauche" cx="136" cy="328" r="7"/> 
+  <rect class="zone" data-zone="pied_droit" x="90" y="334" width="28" height="14" rx="7"/> 
+  <rect class="zone" data-zone="pied_gauche" x="122" y="334" width="28" height="14" rx="7"/> 
+</svg>`; 
+  
+const BACK_SVG = ` 
+<svg viewBox="0 0 240 360" xmlns="http://www.w3.org/2000/svg"> 
+  <circle class="zone" data-zone="tete" cx="120" cy="38" r="26"/> 
+  <rect class="zone" data-zone="cou" x="110" y="62" width="20" height="14" rx="4"/> 
+  <rect class="zone" data-zone="dos_haut" x="90" y="80" width="60" height="52" rx="14"/> 
+  <rect class="zone" data-zone="lombaire" x="94" y="132" width="52" height="30" rx="10"/> 
+  <rect class="zone" data-zone="fessier" x="94" y="162" width="52" height="16" rx="8"/> 
+  <circle class="joint" data-zone="epaule_gauche" cx="78" cy="88" r="11"/> 
+  <circle class="joint" data-zone="epaule_droite" cx="162" cy="88" r="11"/> 
+  <rect class="zone" data-zone="bras_gauche" x="62" y="90" width="18" height="70" rx="9"/> 
+  <rect class="zone" data-zone="bras_droit" x="160" y="90" width="18" height="70" rx="9"/> 
+  <circle class="joint" data-zone="coude_gauche" cx="71" cy="164" r="8"/> 
+  <circle class="joint" data-zone="coude_droit" cx="169" cy="164" r="8"/> 
+  <rect class="zone" data-zone="avant_bras_gauche" x="63" y="172" width="16" height="60" rx="8"/> 
+  <rect class="zone" data-zone="avant_bras_droit" x="161" y="172" width="16" height="60" rx="8"/> 
+  <circle class="joint" data-zone="poignet_gauche" cx="71" cy="236" r="6"/> 
+  <circle class="joint" data-zone="poignet_droit" cx="169" cy="236" r="6"/> 
+  <ellipse class="zone" data-zone="main_gauche" cx="71" cy="245" rx="10" ry="10"/> 
+  <ellipse class="zone" data-zone="main_droite" cx="169" cy="245" rx="10" ry="10"/> 
+  <rect class="zone" data-zone="pouce_gauche" x="57" y="248" width="6" height="11" rx="3"/> 
+  <rect class="zone" data-zone="index_gauche" x="63" y="255" width="5" height="14" rx="2"/> 
+  <rect class="zone" data-zone="majeur_gauche" x="69" y="257" width="5" height="16" rx="2"/> 
+  <rect class="zone" data-zone="annulaire_gauche" x="75" y="255" width="5" height="14" rx="2"/> 
+  <rect class="zone" data-zone="auriculaire_gauche" x="81" y="252" width="5" height="11" rx="2"/> 
+  <rect class="zone" data-zone="pouce_droit" x="177" y="248" width="6" height="11" rx="3"/> 
+  <rect class="zone" data-zone="index_droit" x="172" y="255" width="5" height="14" rx="2"/> 
+  <rect class="zone" data-zone="majeur_droit" x="166" y="257" width="5" height="16" rx="2"/> 
+  <rect class="zone" data-zone="annulaire_droit" x="160" y="255" width="5" height="14" rx="2"/> 
+  <rect class="zone" data-zone="auriculaire_droit" x="154" y="252" width="5" height="11" rx="2"/> 
+  <circle class="joint" data-zone="hanche_gauche" cx="104" cy="175" r="9"/> 
+  <circle class="joint" data-zone="hanche_droite" cx="136" cy="175" r="9"/> 
+  <rect class="zone" data-zone="cuisse_gauche" x="92" y="178" width="24" height="70" rx="12"/> 
+  <rect class="zone" data-zone="cuisse_droite" x="124" y="178" width="24" height="70" rx="12"/> 
+  <circle class="joint" data-zone="genou_gauche" cx="104" cy="252" r="9"/> 
+  <circle class="joint" data-zone="genou_droit" cx="136" cy="252" r="9"/> 
+  <rect class="zone" data-zone="jambe_gauche" x="94" y="260" width="20" height="65" rx="10"/> 
+  <rect class="zone" data-zone="jambe_droite" x="126" y="260" width="20" height="65" rx="10"/> 
+  <circle class="joint" data-zone="cheville_gauche" cx="104" cy="328" r="7"/> 
+  <circle class="joint" data-zone="cheville_droite" cx="136" cy="328" r="7"/> 
+  <rect class="zone" data-zone="pied_gauche" x="90" y="334" width="28" height="14" rx="7"/> 
+  <rect class="zone" data-zone="pied_droit" x="122" y="334" width="28" height="14" rx="7"/> 
+</svg>`; 
+  
+el('bodymapFront').innerHTML = FRONT_SVG; 
+el('bodymapBack').innerHTML = BACK_SVG; 
+  
+let pendingZone = null; 
+  
+function updateZoneHighlights(){ 
+  const zonesWithLesions = new Set(lesionsList.map(l => l.zone)); 
+  document.querySelectorAll('.bodymap-svg [data-zone]').forEach(node => { 
+    const zoneId = node.getAttribute('data-zone'); 
+    node.classList.toggle('selected', zonesWithLesions.has(zoneId)); 
+  }); 
+} 
+  
+function openZonePanel(zoneId){ 
+  pendingZone = zoneId; 
+  el('zonePanelLabel').textContent = ZONE_LABELS[zoneId] || zoneId; 
+  const grid = el('injuryGrid'); 
+  grid.innerHTML = ''; 
+  INJURY_TYPES.forEach(type => { 
+    const btn = document.createElement('button'); 
+    btn.type = 'button'; 
+    btn.textContent = type; 
+    btn.addEventListener('click', () => addLesion(zoneId, type)); 
+    grid.appendChild(btn); 
+  }); 
+  el('injuryAutreInput').value = ''; 
+  el('zonePanel').style.display = 'block'; 
+  el('zonePanel').scrollIntoView({ behavior:'smooth', block:'nearest' }); 
+} 
+  
+function closeZonePanel(){ 
+  pendingZone = null; 
+  el('zonePanel').style.display = 'none'; 
+} 
+  
+function addLesion(zoneId, injuryType){ 
+  lesionsList.push({ zone: zoneId, label: ZONE_LABELS[zoneId] || zoneId, injuryType }); 
+  renderLesionChips(); 
+  closeZonePanel(); 
+} 
+  
+function removeLesion(index){ 
+  lesionsList.splice(index, 1); 
+  renderLesionChips(); 
+} 
+  
+function renderLesionChips(){ 
+  const container = el('lesionChips'); 
+  container.innerHTML = ''; 
+  if (lesionsList.length === 0){ 
+    container.innerHTML = '<div class="empty">Aucune atteinte ajoutée pour l\'instant.</div>'; 
+  } else { 
+    lesionsList.forEach((lesion, index) => { 
+      const chip = document.createElement('div'); 
+      chip.className = 'lesion-chip'; 
+      const text = document.createElement('span'); 
+      text.textContent = lesion.label + ' — ' + lesion.injuryType; 
+      const removeBtn = document.createElement('button'); 
+      removeBtn.type = 'button'; 
+      removeBtn.textContent = '×'; 
+      removeBtn.addEventListener('click', () => removeLesion(index)); 
+      chip.appendChild(text); 
+      chip.appendChild(removeBtn); 
+      container.appendChild(chip); 
+    }); 
+  } 
+  updateZoneHighlights(); 
+  if (typeof renderArbreAuto === 'function') renderArbreAuto(); 
+} 
+  
+document.querySelectorAll('.bodymap-svg').forEach(svgWrap => { 
+  svgWrap.addEventListener('click', (e) => { 
+    const target = e.target.closest('[data-zone]'); 
+    if (!target) return; 
+    openZonePanel(target.getAttribute('data-zone')); 
+  }); 
+}); 
+  
+el('zonePanelCancel').addEventListener('click', closeZonePanel); 
+el('injuryAutreBtn').addEventListener('click', () => { 
+  const val = el('injuryAutreInput').value.trim(); 
+  if (!val || !pendingZone) return; 
+  addLesion(pendingZone, val); 
+}); 
+  
+el('viewFrontBtn').addEventListener('click', () => { 
+  el('bodymapFront').style.display = 'block'; 
+  el('bodymapBack').style.display = 'none'; 
+  el('viewFrontBtn').classList.add('active'); 
+  el('viewBackBtn').classList.remove('active'); 
+}); 
+el('viewBackBtn').addEventListener('click', () => { 
+  el('bodymapFront').style.display = 'none'; 
+  el('bodymapBack').style.display = 'block'; 
+  el('viewBackBtn').classList.add('active'); 
+  el('viewFrontBtn').classList.remove('active'); 
+}); 
+  
+function lesionsSummaryText(){ 
+  return lesionsList.map(l => l.label + ' — ' + l.injuryType).join('; '); 
+} 
+  
+/* ==================== TÉMOINS ET DONNEURS DE SOIN ==================== */ 
+  
+function clearTemoinFields(){ 
+  ['tNom','tRole','tFormationSST','tDistance','tIsolePhonique','tIsoleVisuel','tDangerSiProche','tDangerEnApprochant','tSalvatrice','tCommentaire'] 
+    .forEach(id => { el(id).value = ''; }); 
+} 
+  
+el('addTemoinBtn').addEventListener('click', () => { 
+  clearTemoinFields(); 
+  el('temoinPanel').style.display = 'block'; 
+  if (el('temoinPanel').scrollIntoView) el('temoinPanel').scrollIntoView({ behavior:'smooth', block:'nearest' }); 
+}); 
+  
+el('cancelTemoinBtn').addEventListener('click', () => { 
+  el('temoinPanel').style.display = 'none'; 
+}); 
+  
+el('saveTemoinBtn').addEventListener('click', () => { 
+  const t = { 
+    nom: el('tNom').value, 
+    role: el('tRole').value, 
+    formationSST: el('tFormationSST').value, 
+    distance: el('tDistance').value, 
+    isolePhonique: el('tIsolePhonique').value, 
+    isoleVisuel: el('tIsoleVisuel').value, 
+    dangerSiProche: el('tDangerSiProche').value, 
+    dangerEnApprochant: el('tDangerEnApprochant').value, 
+    salvatrice: el('tSalvatrice').value, 
+    commentaire: el('tCommentaire').value 
+  }; 
+  if (!t.nom && !t.role){ 
+    setStatus('Indique au moins un nom ou un rôle pour ce témoin.'); 
+    return; 
+  } 
+  temoinsList.push(t); 
+  renderTemoinsList(); 
+  el('temoinPanel').style.display = 'none'; 
+}); 
+  
+function removeTemoin(index){ 
+  temoinsList.splice(index, 1); 
+  renderTemoinsList(); 
+} 
+  
+function renderTemoinsList(){ 
+  const container = el('temoinsList'); 
+  container.innerHTML = ''; 
+  if (temoinsList.length === 0){ 
+    container.innerHTML = '<div class="empty">Aucun témoin ou donneur de soin ajouté pour l\'instant.</div>'; 
+    return; 
+  } 
+  temoinsList.forEach((t, index) => { 
+    const card = document.createElement('div'); 
+    card.className = 'temoin-card'; 
+    const rows = [ 
+      ['Formation SST', t.formationSST], 
+      ['Distance estimée', t.distance], 
+      ['Isolé phoniquement', t.isolePhonique], 
+      ['Isolé visuellement', t.isoleVisuel], 
+      ['Danger si plus proche', t.dangerSiProche], 
+      ['Danger en approchant', t.dangerEnApprochant], 
+      ['Intervention salvatrice', t.salvatrice] 
+    ].filter(r => r[1]); 
+    card.innerHTML = 
+      '<div class="t-head"><div><b>' + esc(t.nom || 'Témoin') + '</b>' + 
+        (t.role ? '<span class="t-role">' + esc(t.role) + '</span>' : '') + 
+      '</div><button type="button" class="t-remove">Retirer</button></div>' + 
+      '<div class="t-grid">' + rows.map(r => '<span>' + r[0] + ' :</span><b>' + esc(r[1]) + '</b>').join('') + '</div>' + 
+      (t.commentaire ? '<div class="t-comment">' + esc(t.commentaire) + '</div>' : ''); 
+    card.querySelector('.t-remove').addEventListener('click', () => removeTemoin(index)); 
+    container.appendChild(card); 
+  }); 
+} 
+  
+function esc(s){ 
+  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); 
+} 
+  
+/* ==================== SECOURS EXTERNES ==================== */ 
+  
+const SECOURS_ITEMS = ["Pompiers", "SAMU / Ambulance", "Police / Gendarmerie"]; 
+let secoursIntervenus = []; 
+  
+function renderSecoursGrid(){ 
+  const grid = el('secoursGrid'); 
+  grid.innerHTML = ''; 
+  SECOURS_ITEMS.forEach(item => { 
+    const label = document.createElement('label'); 
+    label.className = 'epi-item'; 
+    const checkbox = document.createElement('input'); 
+    checkbox.type = 'checkbox'; 
+    checkbox.checked = secoursIntervenus.includes(item); 
+    checkbox.addEventListener('change', () => { 
+      if (checkbox.checked){ 
+        if (!secoursIntervenus.includes(item)) secoursIntervenus.push(item); 
+      } else { 
+        secoursIntervenus = secoursIntervenus.filter(e => e !== item); 
+      } 
+    }); 
+    const span = document.createElement('span'); 
+    span.textContent = item; 
+    label.appendChild(checkbox); 
+    label.appendChild(span); 
+    grid.appendChild(label); 
+  }); 
+} 
+renderSecoursGrid(); 
+  
+/* ==================== ACTIONS MISES EN PLACE ==================== */ 
+  
+let actionsList = []; // { description, responsable, delai, statut } 
+  
+function clearActionFields(){ 
+  ['aDescription','aResponsable','aDelai','aStatut','aDateVerif'].forEach(id => { el(id).value = ''; }); 
+} 
+  
+el('addActionBtn').addEventListener('click', () => { 
+  clearActionFields(); 
+  el('actionPanel').style.display = 'block'; 
+  if (el('actionPanel').scrollIntoView) el('actionPanel').scrollIntoView({ behavior:'smooth', block:'nearest' }); 
+}); 
+  
+el('cancelActionBtn').addEventListener('click', () => { 
+  el('actionPanel').style.display = 'none'; 
+}); 
+  
+el('saveActionBtn').addEventListener('click', () => { 
+  const a = { 
+    description: el('aDescription').value, 
+    responsable: el('aResponsable').value, 
+    delai: el('aDelai').value, 
+    statut: el('aStatut').value, 
+    dateVerif: el('aDateVerif').value 
+  }; 
+  if (!a.description){ 
+    setStatus('Décris au moins l\'action avant de l\'ajouter.'); 
+    return; 
+  } 
+  actionsList.push(a); 
+  renderActionsList(); 
+  el('actionPanel').style.display = 'none'; 
+}); 
+  
+function removeAction(index){ 
+  actionsList.splice(index, 1); 
+  renderActionsList(); 
+} 
+  
+function renderActionsList(){ 
+  const container = el('actionsList'); 
+  container.innerHTML = ''; 
+  if (actionsList.length === 0){ 
+    container.innerHTML = '<div class="empty">Aucune action ajoutée pour l\'instant.</div>'; 
+    return; 
+  } 
+  actionsList.forEach((a, index) => { 
+    const card = document.createElement('div'); 
+    card.className = 'temoin-card'; 
+    const rows = [ 
+      ['Responsable', a.responsable], 
+      ['Délai', a.delai], 
+      ['Statut', a.statut], 
+      ['Vérif. efficacité', a.dateVerif] 
+    ].filter(r => r[1]); 
+    card.innerHTML = 
+      '<div class="t-head"><div><b>' + esc(a.description) + '</b></div><button type="button" class="t-remove">Retirer</button></div>' + 
+      '<div class="t-grid">' + rows.map(r => '<span>' + r[0] + ' :</span><b>' + esc(r[1]) + '</b>').join('') + '</div>'; 
+    card.querySelector('.t-remove').addEventListener('click', () => removeAction(index)); 
+    container.appendChild(card); 
+  }); 
+} 
+renderActionsList(); 
+  
+  
+  
+function getEpiEntry(item){ 
+  return epiPortes.find(e => e.item === item); 
+} 
+  
+function renderEpiGrid(){ 
+  const grid = el('epiGrid'); 
+  grid.innerHTML = ''; 
+  EPI_ITEMS.forEach(item => { 
+    const row = document.createElement('div'); 
+    row.className = 'epi-item'; 
+  
+    const label = document.createElement('label'); 
+    label.style.display = 'flex'; 
+    label.style.alignItems = 'center'; 
+    label.style.gap = '7px'; 
+    const checkbox = document.createElement('input'); 
+    checkbox.type = 'checkbox'; 
+    const entry = getEpiEntry(item); 
+    checkbox.checked = !!entry; 
+    const span = document.createElement('span'); 
+    span.textContent = item; 
+    label.appendChild(checkbox); 
+    label.appendChild(span); 
+    row.appendChild(label); 
+  
+    const utileSelect = document.createElement('select'); 
+    utileSelect.className = 'epi-utile-select'; 
+    utileSelect.innerHTML = '<option value="">Utile ?</option><option>Oui</option><option>Non</option><option>Partiellement</option>'; 
+    utileSelect.value = entry ? (entry.utile || '') : ''; 
+    utileSelect.style.display = entry ? 'inline-block' : 'none'; 
+    utileSelect.addEventListener('change', () => { 
+      const e = getEpiEntry(item); 
+      if (e) e.utile = utileSelect.value; 
+    }); 
+    row.appendChild(utileSelect); 
+  
+    checkbox.addEventListener('change', () => { 
+      if (checkbox.checked){ 
+        if (!getEpiEntry(item)) epiPortes.push({ item, utile: '' }); 
+        utileSelect.style.display = 'inline-block'; 
+      } else { 
+        epiPortes = epiPortes.filter(e => e.item !== item); 
+        utileSelect.style.display = 'none'; 
+        utileSelect.value = ''; 
+      } 
+    }); 
+  
+    grid.appendChild(row); 
+  }); 
+} 
+renderEpiGrid(); 
+  
+/* ==================== ARBRE DES CAUSES CONVERGENT ==================== */ 
+  
+let rootCauses = []; // { id, text } 
+let intermediateCauses = []; // { id, text, parentIds:[] } 
+let treeIdCounter = 0; 
+function genTreeId(){ treeIdCounter += 1; return 'n' + Date.now() + '_' + treeIdCounter; } 
+  
+function arbreFinalLabel(data){ 
+  if (data.lesionsList && data.lesionsList.length){ 
+    return data.lesionsList.map(l => l.label + ' (' + l.injuryType + ')').join(' + '); 
+  } 
+  if (data.siegeLesionsAutre) return data.siegeLesionsAutre; 
+  return 'ACCIDENT' + (data.victime ? ' — ' + data.victime : ''); 
+} 
+  
+// Génère le schéma en coordonnées pures (aucune mesure DOM requise) : fonctionne 
+// à l'identique pour l'aperçu écran et pour l'export imprimé/HTML. 
+// mode: 'screen' (largeur libre, défilement horizontal) ou 'print' (mise à l'échelle pour tenir sur la page). 
+function buildArbreTreeHTML(data, mode){ 
+  const roots = data.rootCauses || []; 
+  const interms = data.intermediateCauses || []; 
+  const finalLabel = arbreFinalLabel(data); 
+  
+  if (roots.length === 0 && interms.length === 0){ 
+    return '<div class="empty">Ajoute au moins une cause racine (colonne de gauche ci-dessus) pour voir le schéma se construire.</div>'; 
+  } 
+  
+  const BOX_W = 148, BOX_H = 58, GAP_X = 16, ROW_GAP = 44, PAD = 16; 
+  const FINAL_W = 190, FINAL_H = 66; 
+  
+  const rows = []; 
+  if (roots.length) rows.push({ type: 'root', items: roots }); 
+  if (interms.length) rows.push({ type: 'interm', items: interms }); 
+  rows.push({ type: 'final', items: [{ id: 'final', text: finalLabel }] }); 
+  
+  const maxCount = Math.max(roots.length, interms.length, 1); 
+  const canvasW = maxCount * (BOX_W + GAP_X) + PAD * 2; 
+  const canvasH = rows.reduce((h, r) => h + (r.type === 'final' ? FINAL_H : BOX_H), 0) + (rows.length - 1) * ROW_GAP + PAD * 2; 
+  
+  const positions = {}; 
+  let rowY = PAD; 
+  rows.forEach(row => { 
+    const isFinal = row.type === 'final'; 
+    const w = isFinal ? FINAL_W : BOX_W; 
+    const h = isFinal ? FINAL_H : BOX_H; 
+    const n = row.items.length; 
+    const rowW = n * (w + GAP_X) - GAP_X; 
+    const offsetX = (canvasW - rowW) / 2; 
+    row.items.forEach((item, i) => { 
+      const x = offsetX + i * (w + GAP_X); 
+      positions[item.id] = { x, y: rowY, w, h, cx: x + w / 2, topY: rowY, bottomY: rowY + h }; 
+    }); 
+    rowY += h + ROW_GAP; 
+  }); 
+  
+  let lines = ''; 
+  const finalPos = positions.final; 
+  if (interms.length){ 
+    interms.forEach(ic => { 
+      const icPos = positions[ic.id]; 
+      (ic.parentIds || []).forEach(pid => { 
+        const p = positions[pid]; 
+        if (p) lines += '<line x1="' + p.cx + '" y1="' + p.bottomY + '" x2="' + icPos.cx + '" y2="' + icPos.topY + '" stroke="#ff5b3c" stroke-width="1.6"/>'; 
+      }); 
+      lines += '<line x1="' + icPos.cx + '" y1="' + icPos.bottomY + '" x2="' + finalPos.cx + '" y2="' + finalPos.topY + '" stroke="#ff5b3c" stroke-width="1.6"/>'; 
+    }); 
+  } else { 
+    roots.forEach(rc => { 
+      const p = positions[rc.id]; 
+      lines += '<line x1="' + p.cx + '" y1="' + p.bottomY + '" x2="' + finalPos.cx + '" y2="' + finalPos.topY + '" stroke="#ff5b3c" stroke-width="1.6"/>'; 
+    }); 
+  } 
+  
+  let boxesHtml = ''; 
+  rows.forEach(row => { 
+    row.items.forEach(item => { 
+      const pos = positions[item.id]; 
+      let bg, border, color, weight; 
+      if (row.type === 'root'){ bg = '#eef0f0'; border = '#c7cccf'; color = '#20242a'; weight = 'normal'; } 
+      else if (row.type === 'interm'){ bg = '#ffe0d5'; border = '#ff5b3c'; color = '#20242a'; weight = 'normal'; } 
+      else { bg = '#16213a'; border = '#16213a'; color = '#fff'; weight = 'bold'; } 
+      const label = row.type === 'final' 
+        ? '<div style="font-size:9px;letter-spacing:0.06em;opacity:0.85;margin-bottom:2px;">FAIT ULTIME</div>' + esc(item.text) 
+        : esc(item.text); 
+      boxesHtml += '<div style="position:absolute; left:' + pos.x + 'px; top:' + pos.y + 'px; width:' + pos.w + 'px; height:' + pos.h + 'px;' + 
+        ' background:' + bg + '; border:1.5px solid ' + border + '; border-radius:8px; display:flex; align-items:center; justify-content:center;' + 
+        ' text-align:center; padding:5px; box-sizing:border-box; font-size:10.5px; line-height:1.25; color:' + color + '; font-weight:' + weight + ';' + 
+        ' font-family:Arial, sans-serif;">' + label + '</div>'; 
+    }); 
+  }); 
+  
+  const svgAndBoxes = '<svg width="' + canvasW + '" height="' + canvasH + '" style="position:absolute; top:0; left:0;">' + lines + '</svg>' + boxesHtml; 
+  
+  if (mode === 'print'){ 
+    const MAX_W = 680; 
+    const scale = canvasW > MAX_W ? MAX_W / canvasW : 1; 
+    return '<div style="position:relative; width:' + (canvasW * scale) + 'px; height:' + (canvasH * scale) + 'px;">' + 
+      '<div style="position:relative; width:' + canvasW + 'px; height:' + canvasH + 'px; transform:scale(' + scale + '); transform-origin:top left;">' + 
+      svgAndBoxes + '</div></div>'; 
+  } 
+  return '<div style="position:relative; width:' + canvasW + 'px; height:' + canvasH + 'px; min-width:100%;">' + svgAndBoxes + '</div>'; 
+} 
+  
+function currentArbreData(){ 
+  return { 
+    rootCauses, intermediateCauses, lesionsList, 
+    siegeLesionsAutre: el('siegeLesionsAutre').value, victime: el('victime').value 
+  }; 
+} 
+  
+function renderArbreAuto(){ 
+  el('arbreAuto').innerHTML = buildArbreTreeHTML(currentArbreData(), 'screen'); 
+} 
+  
+function renderRootCausesList(){ 
+  const container = el('rootCausesList'); 
+  if (rootCauses.length === 0){ 
+    container.innerHTML = '<div class="empty">Aucune cause racine ajoutée.</div>'; 
+  } else { 
+    container.innerHTML = ''; 
+    rootCauses.forEach(rc => { 
+      const chip = document.createElement('div'); 
+      chip.className = 'tree-chip'; 
+      chip.innerHTML = '<span class="tree-chip-text">' + esc(rc.text) + '</span>'; 
+      const btn = document.createElement('button'); 
+      btn.type = 'button'; 
+      btn.textContent = '×'; 
+      btn.addEventListener('click', () => { 
+        rootCauses = rootCauses.filter(r => r.id !== rc.id); 
+        intermediateCauses.forEach(ic => { ic.parentIds = ic.parentIds.filter(pid => pid !== rc.id); }); 
+        renderRootCausesList(); 
+        renderIntermParentsChecklist(); 
+        renderIntermCausesList(); 
+        renderArbreAuto(); 
+      }); 
+      chip.appendChild(btn); 
+      container.appendChild(chip); 
+    }); 
+  } 
+  renderIntermParentsChecklist(); 
+} 
+  
+function renderIntermParentsChecklist(){ 
+  const container = el('intermParentsChecklist'); 
+  if (rootCauses.length === 0){ 
+    container.innerHTML = '<div class="empty">Ajoute d\'abord une cause racine.</div>'; 
+    return; 
+  } 
+  container.innerHTML = ''; 
+  rootCauses.forEach(rc => { 
+    const label = document.createElement('label'); 
+    const cb = document.createElement('input'); 
+    cb.type = 'checkbox'; 
+    cb.value = rc.id; 
+    const span = document.createElement('span'); 
+    span.textContent = rc.text; 
+    label.appendChild(cb); 
+    label.appendChild(span); 
+    container.appendChild(label); 
+  }); 
+} 
+  
+function renderIntermCausesList(){ 
+  const container = el('intermCausesList'); 
+  if (intermediateCauses.length === 0){ 
+    container.innerHTML = '<div class="empty">Aucune cause intermédiaire ajoutée.</div>'; 
+    return; 
+  } 
+  container.innerHTML = ''; 
+  intermediateCauses.forEach(ic => { 
+    const parentTexts = ic.parentIds 
+      .map(pid => { const r = rootCauses.find(x => x.id === pid); return r ? r.text : null; }) 
+      .filter(Boolean); 
+    const chip = document.createElement('div'); 
+    chip.className = 'tree-chip'; 
+    chip.innerHTML = '<span class="tree-chip-text">' + esc(ic.text) + 
+      (parentTexts.length ? '<span class="tree-chip-parents">← ' + esc(parentTexts.join(', ')) + '</span>' : '') + 
+      '</span>'; 
+    const btn = document.createElement('button'); 
+    btn.type = 'button'; 
+    btn.textContent = '×'; 
+    btn.addEventListener('click', () => { 
+      intermediateCauses = intermediateCauses.filter(x => x.id !== ic.id); 
+      renderIntermCausesList(); 
+      renderArbreAuto(); 
+    }); 
+    chip.appendChild(btn); 
+    container.appendChild(chip); 
+  }); 
+} 
+  
+el('addRootCauseBtn').addEventListener('click', () => { 
+  const val = el('rootCauseInput').value.trim(); 
+  if (!val) return; 
+  rootCauses.push({ id: genTreeId(), text: val }); 
+  el('rootCauseInput').value = ''; 
+  renderRootCausesList(); 
+  renderArbreAuto(); 
+}); 
+el('rootCauseInput').addEventListener('keydown', (e) => { if (e.key === 'Enter'){ e.preventDefault(); el('addRootCauseBtn').click(); } }); 
+  
+el('addIntermCauseBtn').addEventListener('click', () => { 
+  const val = el('intermCauseInput').value.trim(); 
+  if (!val) return; 
+  const parentIds = Array.from(el('intermParentsChecklist').querySelectorAll('input[type=checkbox]:checked')).map(cb => cb.value); 
+  intermediateCauses.push({ id: genTreeId(), text: val, parentIds }); 
+  el('intermCauseInput').value = ''; 
+  renderIntermParentsChecklist(); 
+  renderIntermCausesList(); 
+  renderArbreAuto(); 
+}); 
+el('intermCauseInput').addEventListener('keydown', (e) => { if (e.key === 'Enter'){ e.preventDefault(); el('addIntermCauseBtn').click(); } }); 
+  
+renderRootCausesList(); 
+renderIntermCausesList(); 
+  
+['siegeLesionsAutre','victime'].forEach(id => { 
+  el(id).addEventListener('input', renderArbreAuto); 
+}); 
+renderArbreAuto(); 
+  
+const COMPANY_HEADER = ` 
+  <div class="company"> 
+    AUTO MOBILITE SERVICES<br> 
+    4 RUE FREDERIC-GUILLAUME RAIFFEISEN 67000 STRASBOURG<br> 
+    SIRET: 91310090500011<br> 
+    Dirigeant: Thierry SILBERZAHN 
+  </div>`; 
+const LOGO_HTML = `<div class="logo">Station Mobilités</div>`; 
+  
+function pageHeader(){ 
+  return `<div class="p-header">${COMPANY_HEADER}${LOGO_HTML}</div>`; 
+} 
+function pageFooter(){ 
+  return `<div class="p-footer"><div>Plan de prévention Station Mobilité Mer Rouge</div></div>`; 
+} 
+  
+function buildPagesHTML(d){ 
+  const p1html = ` 
+    <div class="p-title">Explication déclaration accident du travail</div> 
+    <div class="p-row"><span class="k">Nom de la victime : </span>${esc(d.victime)}</div> 
+    <div class="p-row"><span class="k">Date de l'analyse : </span>${esc(d.dateAnalyse)}</div> 
+    <div class="p-row"><span class="k">Participants : </span>${esc(d.participants)}</div> 
+    <div class="p-row"><span class="k">Date/heure : </span>${esc(d.dateHeure)}</div> 
+    <div class="p-row"><span class="k">Lieu précis : </span>${esc(d.lieu)}</div> 
+    <div class="p-row"><span class="k">Circonstance : </span>${esc(d.circonstance)}</div> 
+    <div class="p-row"><span class="k">Nombre de jours d'arrêt : </span>${esc(d.joursArret)}${d.dateDebutArret ? ' — à partir du ' + esc(d.dateDebutArret) : ''}</div> 
+    <div class="p-row"><span class="k">Gravité : </span>${esc(d.gravite)}</div> 
+    <div class="p-row"><span class="k">Gravité potentielle : </span>${esc(d.gravitePotentielle)}</div> 
+    <div class="p-row"><span class="k">Accident similaire déjà survenu : </span>${esc(d.recidive)}${d.recidiveDetails ? ' — ' + esc(d.recidiveDetails) : ''}</div> 
+    <div class="p-row"><span class="k">Déclaration CPAM : </span>${esc(d.dateDeclaration) || '—'}${d.refDossier ? ' — Réf. ' + esc(d.refDossier) : ''}</div> 
+    <div class="p-block"><span class="k">Siège des lésions :</span> 
+      <div class="v">${(d.lesionsList && d.lesionsList.length) ? d.lesionsList.map(l => '• ' + esc(l.label) + ' — ' + esc(l.injuryType)).join('\n') : '(aucune atteinte enregistrée via le schéma)'}</div> 
+      ${d.siegeLesionsAutre ? '<div class="v" style="margin-top:4px;">' + esc(d.siegeLesionsAutre) + '</div>' : ''} 
+    </div> 
+  
+    <div class="p-block"><span class="k">Récit détaillé de l'accident</span> 
+      <div class="v">${esc(d.recit)}</div> 
+      ${d.recitImg ? '<img class="p-img" src="'+d.recitImg+'">' : ''} 
+    </div> 
+  
+    <div class="p-block"><span class="k">Comment la tâche a été réellement réalisée</span><span class="hint">déroulé concret observé au moment des faits</span> 
+      <div class="v">${esc(d.tacheReelle)}</div> 
+    </div> 
+  
+    <div class="p-block"><span class="k">Comment la tâche est censée être réalisée</span><span class="hint">selon la procédure, la consigne ou la formation reçue</span> 
+      <div class="v">${esc(d.tacheProcedure)}</div> 
+    </div> 
+  
+    <div class="p-block"><span class="k">Comment quelqu'un d'autre l'aurait réalisée</span><span class="hint">pratique observée chez un collègue, un formateur, un autre poste</span> 
+      <div class="v">${esc(d.tacheAlternative)}</div> 
+    </div> 
+  
+    <div class="p-block"><span class="k">Y a-t-il eu quelque chose d'inhabituel ce jour-là ?</span> 
+      <div class="v">${esc(d.tacheInhabituel)}</div> 
+    </div> 
+  
+    <div class="p-block"><span class="k">Organisation du travail</span><span class="hint">Horaires, cadences, délais, interaction avec un tiers, objectifs, autonomie, particularités, moyens de communication, relations dans les équipes, contraintes extérieures</span> 
+      <div class="v">${esc(d.organisation)}</div> 
+    </div> 
+  
+    <div class="p-block"><span class="k">Matériel et prévention</span><span class="hint">Matériel utilisé, risques spécifiques, moyens de prévention mis en œuvre, EPI, état du matériel, origine de la panne ou défaillance</span> 
+      <div class="v">${esc(d.materiel)}</div> 
+    </div> 
+  
+    <div class="p-block"><span class="k">EPI portés par la victime au moment de l'accident :</span> 
+      <div class="v">${(d.epiPortes && d.epiPortes.length) ? d.epiPortes.map(e => '• ' + esc(e.item) + (e.utile ? ' — Utile : ' + esc(e.utile) : ' — Utile : non précisé')).join('\n') : '(aucun EPI coché)'}${d.epiAutre ? '\n• ' + esc(d.epiAutre) : ''}</div> 
+      ${d.epiManquants ? '<div class="v" style="margin-top:4px;"><i>EPI manquants ou inadaptés :</i> ' + esc(d.epiManquants) + '</div>' : ''} 
+    </div> 
+  
+    <div class="p-block"><span class="k">Profil de la victime</span><span class="hint">Niveau de formation, ancienneté, poste occupé, horaires de travail, type de contrat, circonstances particulières, autres personnes impliquées</span> 
+      <div class="v">${esc(d.victimeProfil)}</div> 
+    </div> 
+  
+    <div class="p-block"><span class="k">Environnement</span><span class="hint">État des sols, bruit, température, éclairage, vapeurs, poussières</span> 
+      <div class="v">${esc(d.environnement)}</div> 
+    </div> 
+  `; 
+  
+  const p2html = ` 
+    <div class="p-section">3 - Rechercher les causes et les faits déclencheurs</div> 
+    <div class="p-row"><span class="k">Causes identifiées :</span></div> 
+  
+    <div class="p-cause"><span class="k">A - Organisationnelles </span><span style="font-size:0.8rem;color:#555;">(Cadences, autonomie, objectifs, répartition, dépendance, poste amont/aval, prise en compte des aléas, mode dégradé...)</span> 
+      <div class="v">${esc(d.causeA)}</div> 
+    </div> 
+  
+    <div class="p-cause"><span class="k">B - Techniques </span><span style="font-size:0.8rem;color:#555;">(Matériel : machines, outils, maintenance, état, mode d'emploi — Environnement : bruit, température, éclairage)</span> 
+      <div class="v">${esc(d.causeB)}</div> 
+    </div> 
+  
+    <div class="p-cause"><span class="k">C - Humaines </span><span style="font-size:0.8rem;color:#555;">(Formation, mode d'apprentissage, information, management)</span> 
+      <div class="v">${esc(d.causeC)}</div> 
+    </div> 
+  
+    <div class="p-block p-full"><span class="k">Schéma de l'arbre des causes :</span> 
+      <div class="p-arbre">${buildArbreTreeHTML(d, 'print')}</div> 
+    </div> 
+  
+    ${d.arbreImg ? '<div class="p-block p-full"><span class="k">Schéma alternatif dessiné à la main :</span><img class="p-img" src="'+d.arbreImg+'"></div>' : ''} 
+  `; 
+  
+  const temoinsRows = (d.temoinsList && d.temoinsList.length) ? d.temoinsList.map(t => { 
+    const details = [ 
+      ['Rôle', t.role], ['Formation SST', t.formationSST], ['Distance estimée', t.distance], 
+      ['Isolé phoniquement', t.isolePhonique], ['Isolé visuellement', t.isoleVisuel], 
+      ['Danger si plus proche', t.dangerSiProche], ['Danger en approchant', t.dangerEnApprochant], 
+      ['Intervention salvatrice', t.salvatrice] 
+    ].filter(r => r[1]).map(r => r[0] + ' : ' + r[1]).join('   |   '); 
+    return '<div class="p-block"><span class="k">' + esc(t.nom || 'Témoin') + '</span>' + 
+      '<div class="v" style="font-size:0.82rem;color:#555;">' + esc(details) + '</div>' + 
+      (t.commentaire ? '<div class="v">' + esc(t.commentaire) + '</div>' : '') + 
+      '</div>'; 
+  }).join('') : '<div class="v">(aucun témoin ou donneur de soin enregistré — statut : ' + esc(d.statutAnalyse || 'non défini') + ')</div>'; 
+  
+  const secoursHtml = (d.secoursIntervenus && d.secoursIntervenus.length) 
+    ? d.secoursIntervenus.map(s => esc(s)).join(', ') 
+    : 'Aucun service de secours externe signalé'; 
+  
+  const p3html = ` 
+    <div class="p-section">2 - Témoins et donneurs de soin</div> 
+    <div class="p-row"><span class="k">Statut de l'analyse complémentaire : </span>${esc(d.statutAnalyse) || '—'}</div> 
+    <div class="p-row" style="font-size:0.8rem;color:#555;">Sert à identifier les tâches devant toujours être réalisées à plusieurs, ou les personnes nécessitant un renfort.</div> 
+  
+    <div class="p-block"><span class="k">Services de secours externes intervenus :</span> 
+      <div class="v">${secoursHtml}</div> 
+      ${d.secoursDetails ? '<div class="v" style="margin-top:4px;">' + esc(d.secoursDetails) + '</div>' : ''} 
+    </div> 
+  
+    ${temoinsRows} 
+  `; 
+  
+  const actionsRows = (d.actionsList && d.actionsList.length) ? d.actionsList.map(a => { 
+    const details = [['Responsable', a.responsable], ['Délai', a.delai], ['Statut', a.statut], ['Vérif. efficacité', a.dateVerif]] 
+      .filter(r => r[1]).map(r => r[0] + ' : ' + r[1]).join('   |   '); 
+    return '<div class="p-block"><span class="k">' + esc(a.description) + '</span>' + 
+      (details ? '<div class="v" style="font-size:0.82rem;color:#555;">' + esc(details) + '</div>' : '') + 
+      '</div>'; 
+  }).join('') : '<div class="v">(aucune action enregistrée pour l\'instant)</div>'; 
+  
+  const p4html = ` 
+    <div class="p-section">4 - Actions correctives et préventives mises en place</div> 
+    ${actionsRows} 
+    <div class="p-row" style="margin-top:16px;"><span class="k">Validé par : </span>${esc(d.validateur) || '—'}</div> 
+    <div class="p-row"><span class="k">Date de clôture : </span>${esc(d.dateCloture) || '—'}</div> 
+  `; 
+  
+  const pages = { 
+    p1: '<div class="p-page">' + pageHeader() + '<div class="p-body">' + p1html + p3html + p2html + p4html + '</div>' + pageFooter() + '</div>', 
+    p2: '', 
+    p3: '', 
+    p4: '' 
+  }; 
+  Object.keys(pages).forEach(k => { pages[k] = toQaLayout(pages[k]); }); 
+  return pages; 
+} 
+ 
+// Mise en page question (colonne grise) / réponse (colonne blanche) pour les exports. 
+function toQaLayout(html){ 
+  const tpl = document.createElement('template'); 
+  tpl.innerHTML = html; 
+  tpl.content.querySelectorAll('.p-block:not(.p-full), .p-cause').forEach(b => { 
+    const q = document.createElement('div'); q.className = 'p-q'; 
+    const a = document.createElement('div'); a.className = 'p-a'; 
+    Array.from(b.childNodes).forEach(node => { 
+      if (node.nodeType === 1 && node.tagName === 'SPAN') q.appendChild(node); 
+      else if (node.nodeType === 1) a.appendChild(node); 
+      else if (node.nodeType === 3 && node.textContent.trim()) a.appendChild(node); 
+    }); 
+    b.innerHTML = ''; 
+    b.append(q, a); 
+  }); 
+  return tpl.innerHTML; 
+} 
+  
+function buildPrintView(d){ 
+  const pages = buildPagesHTML(d); 
+  const printArea = el('printArea'); 
+  printArea.innerHTML = pages.p1 + pages.p2 + pages.p3 + pages.p4; 
+} 
+  
+const STANDALONE_PAGE_CSS = ` 
+  body{ margin:0; font-family:'Georgia','Iowan Old Style',serif; color:#000; background:#f0efe9; } 
+  .p-page{ 
+    padding:16mm 16mm 14mm; 
+    page-break-after:always; 
+    max-width:210mm; 
+    min-height:257mm; 
+    margin:0 auto; 
+    background:#fff; 
+    box-sizing:border-box; 
+  } 
+  .p-page:last-child{ page-break-after:auto; } 
+  .p-header{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; } 
+  .p-header .company{ font-family:Arial, sans-serif; font-size:0.68rem; line-height:1.4; } 
+  .p-header .logo{ font-family:'Helvetica Neue', Arial, sans-serif; font-weight:800; font-size:1.05rem; color:#ff5b3c; text-align:right; line-height:1.1; } 
+  .p-header .logo .logo-s{ display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:50%; background:#ff5b3c; color:#fff; font-size:0.8rem; margin-right:3px; } 
+  .p-title{ text-align:center; font-size:1.15rem; text-decoration:underline; text-decoration-color:#ff5b3c; margin:20px 0 26px; } 
+  .p-row{ margin-bottom:9px; font-size:0.95rem; } 
+  .p-row .k{ font-weight:bold; } 
+  .p-block{ margin-bottom:12px; } 
+  .p-block .k{ font-weight:bold; display:block; margin-bottom:2px; font-size:0.92rem; } 
+  .p-block .v{ white-space:pre-wrap; font-size:0.92rem; line-height:1.45; } 
+  .hint{ display:block; font-family:Arial, sans-serif; font-size:0.78rem; font-weight:normal; color:#666; margin-bottom:4px; } 
+  .p-section{ break-after:avoid; page-break-after:avoid; font-weight:bold; text-align:center; font-size:1.02rem; margin:18px 0 16px; color:#e14a2e; } 
+  .p-cause{ margin-bottom:10px; } 
+  .p-cause .k{ font-weight:bold; } 
+  .p-img{ max-width:100%; max-height:210mm; display:block; margin-top:10px; } 
+  .p-arbre{ overflow:visible; } 
+  .p-block, .p-cause{ display:grid; grid-template-columns:36% minmax(0,1fr); border:1px solid #bbb; margin-bottom:8px; break-inside:avoid; page-break-inside:avoid; } 
+  .p-block.p-full{ display:block; border:none; } 
+  .p-q{ background:#ececec; padding:8px 10px; border-right:1px solid #bbb; -webkit-print-color-adjust:exact; print-color-adjust:exact; } 
+  .p-q > span{ display:block; } 
+  .p-a{ padding:8px 10px; min-width:0; } 
+  .p-footer{ margin-top:40px; padding-top:14px; border-top:2px solid #ff5b3c; text-align:center; font-family:Arial, sans-serif; font-size:0.72rem; } 
+  .p-footer .pnum{ font-weight:bold; } 
+  @media screen{ .p-page{ border:1px solid #ddd; margin:14px auto; box-shadow:0 1px 4px rgba(0,0,0,0.08); } } 
+  @media print{ 
+    @page{ size:A4; margin:12mm 12mm 22mm; @bottom-center{ content:"Page " counter(page) " sur " counter(pages) "\\A Plan de prévention Station Mobilité Mer Rouge"; white-space:pre; font-family:Arial, sans-serif; font-size:8pt; font-weight:bold; text-align:center; vertical-align:top; border-top:2px solid #ff5b3c; padding-top:3mm; } } 
+    .p-footer{ display:none; } 
+    body{ background:#fff; } 
+    .p-page{ box-shadow:none; border:none; margin:0 auto; padding:0; min-height:0; max-width:none; } 
+  } 
+`; 
+  
+function exportHtmlFile(d){ 
+  const pages = buildPagesHTML(d); 
+  const title = 'Fiche accident — ' + (d.victime || 'sans nom'); 
+  const doc = '<!DOCTYPE html>\n<html lang="fr"><head><meta charset="UTF-8">' + 
+    '<title>' + esc(title) + '</title>' + 
+    '<style>' + STANDALONE_PAGE_CSS + '</style></head><body>' + 
+    pages.p1 + pages.p2 + pages.p3 + pages.p4 + 
+    '</body></html>'; 
+  
+  const blob = new Blob([doc], { type: 'text/html;charset=utf-8' }); 
+  const url = URL.createObjectURL(blob); 
+  const a = document.createElement('a'); 
+  const safeName = (d.victime || 'fiche-accident').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40) || 'fiche-accident'; 
+  a.href = url; 
+  a.download = safeName + '.html'; 
+  document.body.appendChild(a); 
+  a.click(); 
+  document.body.removeChild(a); 
+  URL.revokeObjectURL(url); 
+} 
+  
+el('exportHtmlBtn').addEventListener('click', () => { 
+  exportHtmlFile(readForm()); 
+  setStatus('Fichier HTML téléchargé.'); 
+}); 
+  
+/* ==================== INFOBULLES D'AIDE ==================== */ 
+  
+const FIELD_TIPS = { 
+  victime: { 
+    tip: "Indique le nom et prénom du salarié accidenté.", 
+    example: "Jean Dupont" 
+  }, 
+  dateAnalyse: { 
+    tip: "Date à laquelle l'analyse de l'accident est réalisée, idéalement dans les jours qui suivent l'événement.", 
+    example: "20/07/2026" 
+  }, 
+  participants: { 
+    tip: "Liste les personnes présentes lors de l'analyse : responsable sécurité, manager, représentant du personnel, témoins...", 
+    example: "Thierry Silberzahn (responsable sécurité), Julie Martin (manager)" 
+  }, 
+  dateHeure: { 
+    tip: "Date et heure précises de survenue de l'accident.", 
+    example: "15/07/2026 — 09h30" 
+  }, 
+  circonstance: { 
+    tip: "Précise dans quel cadre l'accident est survenu : sur le lieu de travail, en mission (déplacement professionnel), ou sur le trajet domicile-travail.", 
+    example: "Accident du travail (sur site)" 
+  }, 
+  joursArret: { 
+    tip: "Nombre de jours d'arrêt de travail prescrits par le médecin.", 
+    example: "5" 
+  }, 
+  gravite: { 
+    tip: "Classe la gravité selon les conséquences réelles : bénin (soins immédiats sans arrêt), avec arrêt de travail, incapacité permanente, ou mortel.", 
+    example: "Avec arrêt de travail" 
+  }, 
+  recit: { 
+    tip: "Décris les faits de façon factuelle et chronologique, sans jugement ni interprétation : qui, quoi, où, quand, comment. Ajoute un croquis ou une photo si utile.", 
+    example: "Le salarié convoyait un véhicule vers la zone de contrôle lorsque le portillon d'accès, mal fixé, a heurté sa main droite." 
+  }, 
+  tacheReelle: { 
+    tip: "Décris le déroulé concret observé : ce que la victime a effectivement fait, geste par geste, au moment des faits.", 
+    example: "Le salarié a débloqué le portillon à la main sans utiliser la procédure de blocage prévue." 
+  }, 
+  tacheProcedure: { 
+    tip: "Décris ce que la procédure, la consigne ou la formation prévoit pour cette tâche.", 
+    example: "La consigne impose de vérifier le blocage du portillon avant tout convoyage." 
+  }, 
+  tacheAlternative: { 
+    tip: "Si tu as connaissance de la façon dont un collègue ou un formateur réalise cette même tâche, décris-la — utile pour repérer un écart de pratique répandu, pas seulement individuel.", 
+    example: "Un autre convoyeur bloque systématiquement le portillon avec la cale prévue à cet effet." 
+  }, 
+  tacheInhabituel: { 
+    tip: "Note tout élément sortant de l'ordinaire ce jour-là (rythme, remplacement, imprévu, changement de consigne...).", 
+    example: "Rien de particulier signalé avant l'accident." 
+  }, 
+  organisation: { 
+    tip: "Décris le contexte organisationnel : cadences, délais, autonomie, communication, relations d'équipe, contraintes externes.", 
+    example: "Cadence normale de fin de journée, aucune pression particulière, pas de tiers impliqué." 
+  }, 
+  materiel: { 
+    tip: "Détaille le matériel utilisé, son état, les EPI portés, et l'origine possible d'une panne ou d'un défaut.", 
+    example: "Portillon métallique sans dispositif de blocage fiable ; aucun EPI requis pour cette tâche." 
+  }, 
+  epiManquants: { 
+    tip: "Note tout EPI qui aurait dû être porté mais ne l'était pas, ou qui était endommagé / non adapté à la tâche réalisée.", 
+    example: "Gants de protection non portés au moment du blocage du portillon." 
+  }, 
+  secoursDetails: { 
+    tip: "Précise le délai d'arrivée des secours externes et les actions qu'ils ont menées sur place.", 
+    example: "Pompiers arrivés 12 minutes après l'appel, prise en charge et évacuation vers l'hôpital." 
+  }, 
+  victimeProfil: { 
+    tip: "Précise le profil de la victime : formation, ancienneté, poste, horaires, type de contrat, éventuelles circonstances particulières.", 
+    example: "Convoyeur en CDI, 2 ans d'ancienneté, poste occupé habituellement." 
+  }, 
+  environnement: { 
+    tip: "Décris les conditions ambiantes au moment de l'accident : sol, bruit, température, éclairage, vapeurs, poussières.", 
+    example: "Sol sec, éclairage extérieur suffisant, aucune nuisance particulière." 
+  }, 
+  causeA: { 
+    tip: "Causes liées à l'organisation du travail : cadences, répartition des tâches, dépendance entre postes, gestion des aléas.", 
+    example: "Absence de procédure formalisée pour le blocage du portillon avant convoyage." 
+  }, 
+  causeB: { 
+    tip: "Causes liées au matériel ou à l'environnement technique : état des équipements, maintenance, ambiance de travail.", 
+    example: "Dispositif de blocage défaillant, maintenance préventive non planifiée." 
+  }, 
+  causeC: { 
+    tip: "Causes liées au facteur humain : formation, information, apprentissage, management.", 
+    example: "Formation insuffisante sur ce risque spécifique lors de la prise de poste." 
+  }, 
+  siegeLesionsAutre: { 
+    tip: "Ajoute ici toute précision sur les lésions qui n'est pas couverte par le schéma du corps ci-dessus.", 
+    example: "Douleur diffuse ressentie le lendemain matin." 
+  } 
+}; 
+  
+const tipBubble = document.createElement('div'); 
+tipBubble.id = 'tipBubble'; 
+tipBubble.className = 'tip-bubble'; 
+tipBubble.style.display = 'none'; 
+document.body.appendChild(tipBubble); 
+  
+let currentTipIcon = null; 
+  
+function positionTip(icon){ 
+  const rect = icon.getBoundingClientRect(); 
+  const bubbleWidth = 260; 
+  let left = rect.left + window.scrollX; 
+  const maxLeft = window.scrollX + document.documentElement.clientWidth - bubbleWidth - 12; 
+  if (left > maxLeft) left = Math.max(12, maxLeft); 
+  const top = rect.bottom + window.scrollY + 6; 
+  tipBubble.style.left = left + 'px'; 
+  tipBubble.style.top = top + 'px'; 
+} 
+  
+function showTip(icon, info){ 
+  tipBubble.innerHTML = '<div class="tip-text">' + esc(info.tip) + '</div>' + 
+    (info.example ? '<div class="tip-example"><b>Exemple :</b> ' + esc(info.example) + '</div>' : ''); 
+  tipBubble.style.display = 'block'; 
+  currentTipIcon = icon; 
+  positionTip(icon); 
+} 
+  
+function hideTip(){ 
+  tipBubble.style.display = 'none'; 
+  currentTipIcon = null; 
+} 
+  
+function toggleTip(icon, info){ 
+  if (currentTipIcon === icon && tipBubble.style.display === 'block'){ 
+    hideTip(); 
+  } else { 
+    showTip(icon, info); 
+  } 
+} 
+  
+function attachTip(fieldId){ 
+  const info = FIELD_TIPS[fieldId]; 
+  const input = el(fieldId); 
+  if (!info || !input) return; 
+  let labelEl = null; 
+  const fieldWrap = input.closest('.field'); 
+  if (fieldWrap) labelEl = fieldWrap.querySelector('label'); 
+  if (!labelEl){ 
+    const content = input.closest('.content'); 
+    if (content) labelEl = content.querySelector('.label2'); 
+  } 
+  if (!labelEl) return; 
+  const icon = document.createElement('button'); 
+  icon.type = 'button'; 
+  icon.className = 'info-icon'; 
+  icon.textContent = 'i'; 
+  icon.setAttribute('aria-label', 'Conseils et exemple de remplissage'); 
+  icon.addEventListener('click', (e) => { e.stopPropagation(); toggleTip(icon, info); }); 
+  labelEl.appendChild(icon); 
+} 
+  
+Object.keys(FIELD_TIPS).forEach(attachTip); 
+  
+document.addEventListener('click', (e) => { 
+  if (tipBubble.style.display === 'block' && !tipBubble.contains(e.target) && e.target !== currentTipIcon){ 
+    hideTip(); 
+  } 
+}); 
+window.addEventListener('scroll', () => { if (currentTipIcon) positionTip(currentTipIcon); }, true); 
+window.addEventListener('resize', () => { if (currentTipIcon) positionTip(currentTipIcon); }); 
+  
+loadHistory(); 
+</script> 
+</body> 
+</html> 
+  
+ 
